@@ -24,7 +24,6 @@ local tmap = mp.tmap
 -- is X os executable
 local executable = vim.fn.executable
 
--- TODO: stylua everything
 
 --
 -- MAPPINGS
@@ -176,10 +175,6 @@ nnoremap("<Leader>-", "o<Esc>80a-<Esc>")
 -- \= ruler
 nnoremap("<Leader>=", "o<Esc>80a=<Esc>")
 
--- \v = new vertical split
--- TODO: interferes with \vso
--- nnoremap("<Leader>v", ':vnew<cr>')
-
 -- \h = new horizontal split
 nnoremap("<Leader>h", ":new<cr>")
 
@@ -192,14 +187,11 @@ nnoremap("<Leader>pw", ":pwd<cr>")
 -- \pb = print directory of current buffer
 nnoremap("<Leader>pb", ':echo expand("%:h")<cr>')
 
+-- \wd = set working dir to buffer
 nnoremap("<Leader>wd", function()
-	util.execute("cd ", util.expand("%:h"))
+	util.execute("cd ", buffer.dir())
 	util.execute("pwd")
 end)
-
--- TODO: once fugative installed
--- \wg = change working directory to git root
---nnoremap("<Leader>wg" :execute 'cd ' . fnamemodify(FugitiveGitDir(), ':h')<bar>:pwd<cr>
 
 -- \ss - save all
 nnoremap("<Leader>ss", ":wa<cr>")
@@ -335,28 +327,38 @@ nmap("<c-l>", util.ex("wincmd l"), silent)
 -- \cf = copy fullpath (and "f)
 -- \cv = copy filename only (and "f)
 -- \cs = copy stem (and "f)
-nmap("<Leader>cd", function() file.clip({ typ = "dir" }, 1) end, silent) -- directory
-nmap("<Leader>cf", function() file.clip({ typ = "full" }, 1) end, silent) -- full path
-nmap("<Leader>cv", function() file.clip({ typ = "filename" }, 1) end, silent) -- filename only
-nmap("<Leader>cs", function() file.clip({ typ = "stem" }, 1) end, silent) -- stem only
+nmap("<Leader>cd", function()
+	file.clip({ typ = "dir" }, 1)
+end, silent) -- directory
+nmap("<Leader>cf", function()
+	file.clip({ typ = "full" }, 1)
+end, silent) -- full path
+nmap("<Leader>cv", function()
+	file.clip({ typ = "filename" }, 1)
+end, silent) -- filename only
+nmap("<Leader>cs", function()
+	file.clip({ typ = "stem" }, 1)
+end, silent) -- stem only
 
 -- <ctrl-c><ctrl-d> (ins) = insert directory/path
 -- <ctrl-c><ctrl-f> (ins) = insert fullpath
 -- <ctrl-c><ctrl-v> (ins) = insert filename only
 -- <ctrl-c><ctrl-s> (ins) = insert stem
-imap("<C-C><C-D>", function() util.insert_text(buffer.dir()) end, silent)
-imap("<C-C><C-F>", function() util.insert_text(buffer.full()) end, silent)
-imap("<C-C><C-V>", function() util.insert_text(buffer.filename()) end, silent)
-imap("<C-C><C-S>", function() util.insert_text(buffer.stem()) end, silent)
-
--- TODO: fugative
--- nnoremap <Leader>cb :let @+=fugitive#head()<bar>let@f=@+<cr>
+imap("<C-C><C-D>", function()
+	util.insert_text(buffer.dir())
+end, silent)
+imap("<C-C><C-F>", function()
+	util.insert_text(buffer.full())
+end, silent)
+imap("<C-C><C-V>", function()
+	util.insert_text(buffer.filename())
+end, silent)
+imap("<C-C><C-S>", function()
+	util.insert_text(buffer.stem())
+end, silent)
 
 -- Ctrl-\ = (terminal) exit insertmode
 tnoremap("<C-\\>", "<C-\\><C-n>")
-
--- TODO: to open the terminal with a window size
--- :new +resize20 term://zsh
 
 -- prevent Ctrl-S freeze
 tmap("<C-S>", "<Nop>")
@@ -367,13 +369,10 @@ map("<Leader>mt", [[:let $VIM_DIR=expand('%:p:h')<cr>:terminal<cr>cd $VIM_DIR<cr
 -- \dt = diffthis
 map("<Leader>dt", [[:if &diff <bar> diffoff <bar> else <bar> diffthis <bar>endif<cr>]])
 
--- Dirvish
-nmap("<F4>", "<Plug>(dirvish_up):echo(expand('%'))<cr>")
-
-
-
--- TODO = toggle regex mode ???
--- TODO = grep prompt dir ???
+-- TODO -
+-- setup a Command to set the various grep options 
+--    toggle regex mode 
+--    grep prompt dir 
 
 -- \gW = toggle word boundary grep
 -- grep runs from `after/plugin/telescope.lua`
@@ -409,7 +408,6 @@ nnoremap("<leader>gG", function()
 		end
 	end)
 end)
-
 
 --
 -- map toggles
@@ -461,8 +459,7 @@ nnoremap("<F12>", function()
 	if ids.winid ~= 0 then
 		vim.cmd.cclose()
 	else
-		-- TODO: how to do ":botright copen"
-		vim.cmd.copen()
+		vim.cmd(":botright copen")
 	end
 end)
 
@@ -478,15 +475,18 @@ mp.toggle("<Leader>sr", "splitright")
 -- \sl = toggle selection (exclusive/inclusive)
 mp.toggle("<Leader>sl", { setting = "selection", choices = { "inclusive", "exclusive" } })
 
--- TODO:  autocmd on file types to set b:dot_characters, default = ['.']
---        then \kd toggles b:dot_characters in/out of iskeyword
---
--- " \kd = toggle '.' in `iskeyword`
--- map <Leader>kd :call toggle#option_list('iskeyword', '.')<cr>
+-- \ar = toggle autoread
+mp.toggle("<Leader>ar", "autoread")
 
--- " \kp = prompt for char to toggle in `iskeyword`
--- map <Leader>kp :call toggle#option_list('iskeyword')<cr>
---
+-- \kd = toggle '.' in `iskeyword`
+-- or vim.b.lang_dot to override
+mp.toggle("<Leader>kd", {
+    setting = "iskeyword",
+    choices = function()
+        local dot = vim.b.lang_dot or "."
+        return { dot, "" }
+    end
+})
 
 nnoremap("<Leader><C-]>", function()
 	local word = util.expand("<cWORD>")

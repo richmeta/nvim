@@ -34,7 +34,7 @@ if ok then
         local found = scan.scan_dir(vim.g.sync_commands_dir, { search_pattern = arglead })
 
         -- further match on filename only
-        for i, v in ipairs(found) do
+        for _, v in ipairs(found) do
             local filename = file.filename(v)
             if filename:match(pat) then
                 table.insert(ret, filename)

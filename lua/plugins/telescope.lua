@@ -1,9 +1,11 @@
-
 return {
-    config = function() 
+    "nvim-telescope/telescope.nvim",
+
+    config = function()
+        local telescope = require('telescope')
         local actions = require('telescope.actions')
 
-        telescope.setup{            
+        telescope.setup{
             defaults = {
                 path_display = { "absolute" },      -- TODO: try smart
                 preview = false,
@@ -38,5 +40,15 @@ return {
                 -- https://github.com/cljoly/telescope-repo.nvim
             }
         }
+
+        -- workaround purple
+        -- https://github.com/nvim-telescope/telescope.nvim/issues/2145
+        vim.cmd([[:hi NormalFloat ctermfg=LightGrey]])
+
+        -- TODO: add
+        --   help (with preview)
+        --   commands (with preview)
     end
 }
+
+-- see also <nvim>/after/plugin/telescope.lua

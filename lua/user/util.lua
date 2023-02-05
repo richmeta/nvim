@@ -35,9 +35,9 @@ end
 
 function M.debug(...)
     if vim.g.show_debug then
-        arg={...}
-        msg = ""
-        for i, v in ipairs(arg) do
+        local arg={...}
+        local msg = ""
+        for _, v in ipairs(arg) do
             msg = msg .. v
         end
         print(msg)  -- as echom
@@ -45,9 +45,9 @@ function M.debug(...)
 end
 
 function M.execute(...)
-    arg={...}
-    cmd = ""
-    for i, v in ipairs(arg) do
+    local arg={...}
+    local cmd = ""
+    for _, v in ipairs(arg) do
         cmd = cmd .. v
     end
     M.debug("running cmd: ", cmd)
@@ -55,7 +55,7 @@ function M.execute(...)
 end
 
 function M.expand(arg)
-    value = vim.fn.expand(arg)
+    local value = vim.fn.expand(arg)
     if value == nil or value == "" then
         error("expand("..arg..") is empty")
     end
@@ -71,7 +71,7 @@ function M.ex(cmdline, immediate)
             if type(cmdline) == "string" then
                 vim.api.nvim_command(cmdline)
             elseif type(cmdline) == "table" then
-                for i, cmd in ipairs(cmdline) do
+                for _, cmd in ipairs(cmdline) do
                     vim.api.nvim_command(cmd)
                 end
             end
@@ -96,7 +96,9 @@ end
 function M.len(T)
     if type(T) == "table" then
         local count = 0
-        for _ in pairs(T) do count = count + 1 end
+        for _ in pairs(T) do 
+            count = count + 1 
+        end
         return count
     elseif type(T) == "string" then
         return T:len()

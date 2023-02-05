@@ -1,4 +1,3 @@
-
 -- setup any global variables
 
 vim.g.show_debug = true

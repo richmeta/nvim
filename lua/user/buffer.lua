@@ -45,7 +45,7 @@ function M.dirvish_or_buffer_dir()
     if vim.o.filetype == "dirvish" then
         return util.expand("%")
     end
-    return buffer.expand("dir")
+    return M.expand("dir")
 end
 
 M.fullpath = M.full

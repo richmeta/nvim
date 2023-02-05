@@ -1,6 +1,9 @@
-local M = {}
 local util = require("user.util")
 local buffer = require("user.buffer")
+local clipboard = require("user.clip")
+local Path = require("plenary.path")
+
+local M = {}
 
 function M.expand_expr(typ)
     -- returns the expand equiv of `typ`
@@ -42,9 +45,9 @@ end
 
 function M.prompt_rename(source)
     -- local newfilename = vim.fn.input('new filename: ', source)
-    vim.fn.input({ prompt = 'new filename: ', default = source},
-        function(value)
-            if value and value ~= source then
+    vim.ui.input({ prompt = 'new filename: ', default = source},
+        function(newfilename)
+            if newfilename and newfilename ~= source then
                 local cmd = string.format('!mv "%s" "%s"', source, newfilename)
                 util.execute(cmd)
             end
@@ -52,16 +55,10 @@ function M.prompt_rename(source)
     )
 end
 
-local ok, Path = pcall(require, "plenary.path")
-if not ok then
-    return M
-end
-
 function M.path_equal(a, b)
     local p1 = tostring(Path:new(a))
     local p2 = tostring(Path:new(b))
-    res = (p1 == p2)
-    return res
+    return p1 == p2
 end
 
 function M.dirname(filename)
@@ -81,7 +78,7 @@ function M.exists(filename)
 end
 
 function M.clip(opts)
-    -- opts = { 
+    -- opts = {
     --     path = optional, use expand or typ
     --     expand = pattern to expand into path
     --     typ = expand by type (dir, full, filename, stem),
@@ -100,13 +97,7 @@ function M.clip(opts)
         path = tostring(Path:new(util.expand(expand)))   -- fullpath
     end
 
-    local clip = vim.g.clip
-    if clip == nil then
-        vim.fn.setreg("+", path)
-    else
-        -- vim.fn.system(clip, util.expand("%:p:h"))    -- TODO: not sure if we need full path here? test on other OS
-        vim.fn.system(clip, path)
-    end
+    clipboard.copy(path)
 
     -- also place result in reg f
     vim.fn.setreg("f", path)

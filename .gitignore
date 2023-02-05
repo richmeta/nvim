@@ -1,3 +1,5 @@
 note.txt
 .netrwhist
-packer_compiled.*
+lazy-lock.json
+lua/test.lua
+

@@ -1,17 +1,5 @@
-local os = require("user.os")
-local file = require("user.file")
-
-local cmd = vim.cmd     -- run vim script
-local A   = vim.api     -- nvim api
-local g   = vim.g       -- g: variables
-local b   = vim.b       -- b: variables
 local o   = vim.o       -- set: options
-
 local opt = vim.opt     -- lua api for options, lists etc
-
--- vim.opt.thing:append { "*.pyc" } -- same as +=
--- vim.opt.thing:prepend            -- same as ^=
--- vim.opt.thing:remove             -- same as -=
 
 o.hidden = true
 o.backup = false
@@ -28,7 +16,7 @@ o.hlsearch = false
 o.autowrite = true
 o.modelines = 5
 o.backspace="indent,eol,start"
-o.background = dark
+o.background = "dark"
 o.history = 10000
 o.ruler = true
 o.incsearch = true
@@ -74,9 +62,7 @@ o.tagbsearch = true
 o.fixendofline = false
 o.mouse = "a"
 o.selection = "inclusive"
-if file.join then
-    o.dictionary = file.join(os.nvim_config_dir, "dict/dict.txt")
-end
+o.dictionary = vim.fn.stdpath("config") .. "/dict/dict.txt"
 o.pastetoggle = "<Leader>ps"
 opt.diffopt:append("algorithm:patience")
 
