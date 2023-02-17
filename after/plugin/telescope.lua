@@ -1,8 +1,4 @@
-local ok, telescope = pcall(require, "telescope")
-if not ok then
-    return
-end
-
+local telescope= require("telescope")
 local util = require('user.util')
 local buffer = require('user.buffer')
 local table = require('table')

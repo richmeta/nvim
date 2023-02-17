@@ -1,13 +1,15 @@
 local file = require("user.file")
 local util = require("user.util")
+local os = require("user.os")
+local scan = require("plenary.scandir")
 
--- Vgrep = '^\s*".*<args>.*=' luadir
+-- Vgrep = search nvim lua config
+-- regex = '^\s*".*<args>.*=' in luadir
 vim.api.nvim_create_user_command(
     'Vgrep',
     function(opts)
-        local myvimrc_dir = file.dirname(vim.fn.resolve(util.expand('$MYVIMRC')))
         local arg = opts.args:gsub('\\', '\\\\')    -- need double delimited for leader mappings
-        local cmd = string.format("silent grep! '^\\s*--.*%s' %s", arg, myvimrc_dir)
+        local cmd = string.format("silent grep! '^\\s*--.*%s' %s", arg, os.nvim_config_dir)
         util.execute(cmd)
         util.execute("cwindow")
     end,
@@ -25,26 +27,22 @@ vim.api.nvim_create_user_command(
     { nargs = 1 }
 )
 
-local nopen_complete_func = nil
-local ok, scan = pcall(require, "plenary.scandir")
-if ok then
-    nopen_complete_func = function(arglead)
-        local pat = "^" .. arglead
-        local ret = {}
-        local found = scan.scan_dir(vim.g.sync_commands_dir, { search_pattern = arglead })
+local nopen_complete_func = function(arglead)
+    local pat = "^" .. arglead
+    local ret = {}
+    local found = scan.scan_dir(vim.g.sync_commands_dir, { search_pattern = arglead })
 
-        -- further match on filename only
-        for _, v in ipairs(found) do
-            local filename = file.filename(v)
-            if filename:match(pat) then
-                table.insert(ret, filename)
-            end
+    -- further match on filename only
+    for _, v in ipairs(found) do
+        local filename = file.filename(v)
+        if filename:match(pat) then
+            table.insert(ret, filename)
         end
-        return ret
     end
+    return ret
 end
 
-
+-- Nopen = open from sync commands
 vim.api.nvim_create_user_command(
     'Nopen',
     function(opts)

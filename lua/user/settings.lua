@@ -1,3 +1,5 @@
+local os = require("user.os")
+
 local o   = vim.o       -- set: options
 local opt = vim.opt     -- lua api for options, lists etc
 
@@ -62,7 +64,7 @@ o.tagbsearch = true
 o.fixendofline = false
 o.mouse = "a"
 o.selection = "inclusive"
-o.dictionary = vim.fn.stdpath("config") .. "/dict/dict.txt"
+o.dictionary = os.nvim_config_dir .. "/dict/dict.txt"
 o.pastetoggle = "<Leader>ps"
 opt.diffopt:append("algorithm:patience")
 

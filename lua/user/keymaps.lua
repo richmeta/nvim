@@ -205,7 +205,7 @@ vnoremap("<Leader>vs", ":sort<cr>")
 
 -- \vrc - open vimrc
 nnoremap("<Leader>vrc", function()
-	local fn = util.expand("$MYVIMRC")
+    local fn = os.nvim_config_dir .. "/lua/user/init.lua"
 	vim.cmd("tabedit " .. fn)
 end)
 
@@ -358,7 +358,11 @@ imap("<C-C><C-S>", function()
 end, silent)
 
 -- Ctrl-\ = (terminal) exit insertmode
-tnoremap("<C-\\>", "<C-\\><C-n>")
+tnoremap("<C-\\>", [[<C-\><C-n>]])
+-- tnoremap("<C-h>", [[C-\><C-n><C-W>h]])
+-- tnoremap("<C-j>", [[C-\><C-n><C-W>j]])
+-- tnoremap("<C-k>", [[C-\><C-n><C-W>k]])
+-- tnoremap("<C-l>", [[C-\><C-n><C-W>l]])
 
 -- prevent Ctrl-S freeze
 tmap("<C-S>", "<Nop>")

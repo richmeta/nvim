@@ -13,7 +13,7 @@ return {
 
     -- git
     { "lewis6991/gitsigns.nvim", opts = {} },
-    -- { "TimUntersberger/neogit.git", opts = {} },
+    { "TimUntersberger/neogit", opts = {} },
 
     -- commenting
     { "numToStr/Comment.nvim", opts = {} },
@@ -42,8 +42,8 @@ return {
     -- erlang
     { "vim-erlang/vim-erlang-tags" },
 
-    -- terminal TODO
-    -- { "akinsho/toggleterm.nvim" }
+    -- terminal
+    { "akinsho/toggleterm.nvim" }                   -- yes
 }
 
 -- TODO: local plugins

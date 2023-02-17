@@ -38,8 +38,10 @@ M.xmap = bind("x")
 local buffer = { buffer = true }
 local buffer_noremap = { noremap = true, buffer = true }
 M.nnoremap_b = bind("n", buffer_noremap)
+M.tnoremap_b = bind("t", buffer_noremap)
 M.xnoremap_b = bind("x", buffer_noremap)
 M.nmap_b = bind("n", buffer)
+M.tmap_b = bind("t", buffer)
 
 function M.toggle(mapping, arg)
     -- create a normal mapping to
