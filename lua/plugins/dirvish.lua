@@ -10,7 +10,12 @@ return {
         {"<F4>", "Dirvish<Space>", mode = "c" },
 
         -- g<F4> = dirvish git root dir
-        -- nmap <silent><C-F4> :execute 'tabedit +Dirvish\ ' . fnamemodify(FugitiveGitDir(), ':h')<cr> -- TODO: when git
+        {"g<F4>", function()
+            local gitcli = require("neogit.lib.git.cli")
+            local gitdir = gitcli.git_root()
+            local cmd = string.format("tabedit +Dirvish %s", gitdir)
+            vim.cmd(cmd)
+        end, mode = "n"},
 
         -- Shift-<F4> = vsplit + dirvish current dir
         {"<f16>", "<Plug>(dirvish_vsplit_up)", mode = "n", noremap = true },

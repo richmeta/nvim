@@ -7,7 +7,7 @@ return {
 
         telescope.setup{
             defaults = {
-                path_display = { "absolute" },      -- TODO: try smart
+                path_display = { "absolute" },
                 preview = false,
                 layout_strategy = "bottom_pane",
                 layout_config = {

@@ -7,22 +7,22 @@ if ok then
   reloader = plenary_reload.reload_module
 end
 
--- GLOBAL!
+-- GLOBALs!
 P = function(v)
   print(vim.inspect(v))
   return v
 end
 
--- GLOBAL!
 RELOAD = function(...)
   return reloader(...)
 end
 
--- GLOBAL!
 R = function(name)
   RELOAD(name)
   return require(name)
 end
+
+--
 
 function M.fif(condition, when_true, when_false)
     -- equiv of ternary

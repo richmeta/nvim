@@ -14,6 +14,7 @@ return {
     -- git
     { "lewis6991/gitsigns.nvim", opts = {} },
     { "TimUntersberger/neogit", opts = {} },
+    { "sindrets/diffview.nvim", opts = {} },
 
     -- commenting
     { "numToStr/Comment.nvim", opts = {} },

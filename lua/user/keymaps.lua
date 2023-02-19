@@ -358,11 +358,8 @@ imap("<C-C><C-S>", function()
 end, silent)
 
 -- Ctrl-\ = (terminal) exit insertmode
+-- <esc> interferes with terminal
 tnoremap("<C-\\>", [[<C-\><C-n>]])
--- tnoremap("<C-h>", [[C-\><C-n><C-W>h]])
--- tnoremap("<C-j>", [[C-\><C-n><C-W>j]])
--- tnoremap("<C-k>", [[C-\><C-n><C-W>k]])
--- tnoremap("<C-l>", [[C-\><C-n><C-W>l]])
 
 -- prevent Ctrl-S freeze
 tmap("<C-S>", "<Nop>")
@@ -374,7 +371,7 @@ map("<Leader>mt", [[:let $VIM_DIR=expand('%:p:h')<cr>:terminal<cr>cd $VIM_DIR<cr
 map("<Leader>dt", [[:if &diff <bar> diffoff <bar> else <bar> diffthis <bar>endif<cr>]])
 
 -- TODO -
--- setup a Command to set the various grep options 
+-- setup a Command to set the various grep options
 --    toggle regex mode 
 --    grep prompt dir 
 

@@ -43,6 +43,21 @@ M.xnoremap_b = bind("x", buffer_noremap)
 M.nmap_b = bind("n", buffer)
 M.tmap_b = bind("t", buffer)
 
+local function find_next_choice(current_value, choices)
+    -- precondition: value must exist in choices
+    for i, v in ipairs(choices) do
+        if v == current_value then
+            local _, next_value = next(choices, i)
+            if next_value == nil then
+                next_value = choices[1]
+            end
+            return next_value
+        end
+    end
+
+    error(string.format("Current value doesn't match choices. Add '%s' to choices '%s'.", current_value, vim.inspect(choices)))
+end
+
 function M.toggle(mapping, arg)
     -- create a normal mapping to
     -- toggle a setting over list of available values
@@ -111,39 +126,22 @@ function M.toggle(mapping, arg)
                 )
                 return
             elseif #found == 1 then
-                found = found[1]
-
                 -- find the next item, remove current and add next
-                for i, v in ipairs(choices) do
-                    if v == found then
-                        local _, next_value = next(choices, i)
-                        if next_value == nil then
-                            next_value = choices[1]
-                        end
-                        vim.opt[setting]:remove(found)
-                        if next_value ~= "" then
-                            vim.opt[setting]:append(next_value)
-                        end
-                    end
+                local next_value = find_next_choice(found[1], choices)
+                vim.opt[setting]:remove(found[1])
+                if next_value ~= "" then
+                    vim.opt[setting]:append(next_value)
                 end
             else
                 -- nothing found, assume first
                 vim.opt[setting]:append(choices[1])
             end
             vim.notify(string.format("%s=%s", setting, vim.o[setting]), vim.log.levels.INFO)
-        elseif type(current) ~= "table" then        -- exclude map types
+        elseif type(current) ~= "table" then        -- map types not supported
             -- single setting
-            for i, v in ipairs(choices) do
-                if v == current then
-                    local _, next_value = next(choices, i)
-                    if next_value == nil then
-                        next_value = choices[1]
-                    end
-                    vim.opt[setting] = next_value
-                    vim.notify(string.format("%s=%s", setting, next_value), vim.log.levels.INFO)
-                    break
-                end
-            end
+            local next_value = find_next_choice(current, choices)
+            vim.opt[setting] = next_value
+            vim.notify(string.format("%s=%s", setting, next_value), vim.log.levels.INFO)
         end
     end, opts.map_opts)
 end
