@@ -81,23 +81,22 @@ mp.nmap_b("<C-T>", "t")
 mp.nnoremap_b("t", ":call dirvish#open('tabedit', 0)<cr>", silent)
 mp.xnoremap_b("t", ":call dirvish#open('tabedit', 0)<cr>", silent)
 
--- open file under cursor (no split)
-mp.nmap_b("<cr>", function()
-    vim.cmd('call dirvish#open("edit", 0)')
+local function open()
+    local dirvish_open = vim.fn["dirvish#open"]
+    dirvish_open("edit", 0)
     vim.notify(dir(), vim.log.levels.INFO)
-end, { nowait = true, silent = true })
+end
+
+-- cr = open (dirvish) file under cursor (no split)
+-- l = open (dirvish) [like vifm]
+mp.nmap_b("<cr>", open, { nowait = true, silent = true })
+mp.nmap_b("l", open, { nowait = true, silent = true })
 
 -- r-click = preview
 mp.nmap_b("<RightMouse>", "p")
 
 -- h = up dir (dirvish) [like vifm]
 mp.nmap_b("h", "<Plug>(dirvish_up)", silent)
-
--- l = open (dirvish) [like vifm]
-mp.nmap_b("l", function()
-    vim.cmd('call dirvish#open("edit", 0)')
-    vim.notify(dir(), vim.log.levels.INFO)
-end, silent)
 
 -- copypath
 mp.nmap_b("<Leader>cd", function()

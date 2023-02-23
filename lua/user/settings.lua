@@ -75,5 +75,4 @@ end
 -- aliases under terminal
 vim.env.BASH_ENV = '~/.bash_aliases'
 
-vim.cmd("filetype plugin on")
-vim.cmd("filetype plugin indent on")
+vim.cmd.filetype("plugin indent on")

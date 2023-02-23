@@ -1,8 +1,4 @@
-local function cabbrev(input, replace)
-    local cmd = 'cabbrev %s %s'
-    local cmd2 = cmd:format(input, replace)
-    vim.cmd(cmd2)
-end
+local cabbrev = vim.cmd.cabbrev
 
 -- cs = colorscheme[c]
 cabbrev("cs", "colorscheme")
@@ -13,3 +9,7 @@ cabbrev("T", "tabedit")
 -- some common path abbreviations
 cabbrev("_config", "~/.config")
 cabbrev("_sshconfig", "~/.ssh/config")
+
+if vim.fn.exists("$HOME/scripts") then
+    cabbrev("_scripts", "~/scripts")
+end

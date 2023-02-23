@@ -206,7 +206,7 @@ vnoremap("<Leader>vs", ":sort<cr>")
 -- \vrc - open vimrc
 nnoremap("<Leader>vrc", function()
     local fn = os.nvim_config_dir .. "/lua/user/init.lua"
-	vim.cmd("tabedit " .. fn)
+    vim.cmd.tabedit(fn)
 end)
 
 -- \vso = reload vimrc manually

@@ -3,10 +3,25 @@
 return {
     -- essential
     { "nvim-lua/plenary.nvim" },
-    { "nvim-treesitter/nvim-treesitter" },
+
+    -- treesitter
+    { "nvim-treesitter/nvim-treesitter" },          -- yes
+    { "nvim-treesitter/playground" },
+
+    -- lsp
+    { "williamboman/mason.nvim", opts = {} },
+    { "williamboman/mason-lspconfig.nvim" },          -- yes
+    { "hrsh7th/cmp-nvim-lsp" },
+    { "hrsh7th/cmp-buffer" },
+    { "hrsh7th/cmp-path" },
+    { "hrsh7th/cmp-cmdline" },
+    { "hrsh7th/nvim-cmp" },
+    { "saadparwaiz1/cmp_luasnip" },
+    { "L3MON4D3/LuaSnip" },
+    { "neovim/nvim-lspconfig" },
 
     -- python - TODO: replace with LSP?
-    { "davidhalter/jedi-vim" },
+    -- { "davidhalter/jedi-vim", ft = "python" },
 
     -- TODO: configure
     { "ThePrimeagen/harpoon" },
@@ -23,8 +38,8 @@ return {
     { "justinmk/vim-dirvish" },                     -- yes
     { "nvim-telescope/telescope.nvim" },            -- yes
 
-    -- snippets
-    { "SirVer/ultisnips" },                         -- yes
+    -- snippets TODO: replace with lua
+    -- { "SirVer/ultisnips" },                         -- yes
 
     -- highlighting
     { "t9md/vim-quickhl" },                         -- yes
@@ -41,7 +56,7 @@ return {
     { "godlygeek/tabular" },
 
     -- erlang
-    { "vim-erlang/vim-erlang-tags" },
+    { "vim-erlang/vim-erlang-tags", ft = "erlang" },
 
     -- terminal
     { "akinsho/toggleterm.nvim" }                   -- yes

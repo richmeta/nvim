@@ -5,7 +5,7 @@ local buffer = require("user.buffer")
 local clipboard = require("user.clip")
 local mp = require("user.map")
 
-local function not_git() 
+local function not_git()
     vim.notify("Not a git dir", vim.log.levels.INFO)
 end
 
