@@ -41,6 +41,7 @@ M.nnoremap_b = bind("n", buffer_noremap)
 M.tnoremap_b = bind("t", buffer_noremap)
 M.xnoremap_b = bind("x", buffer_noremap)
 M.nmap_b = bind("n", buffer)
+M.vmap_b = bind("n", buffer)
 M.tmap_b = bind("t", buffer)
 
 local function find_next_choice(current_value, choices)

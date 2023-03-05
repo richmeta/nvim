@@ -20,7 +20,7 @@ function M.expand_expr(typ)
     error("unknown value for `typ` : " .. typ)
 end
 
-function M.expand(typ) 
+function M.expand(typ)
     return util.expand(M.expand_expr(typ))
 end
 
@@ -40,7 +40,7 @@ function M.stem()
     return M.expand("stem")
 end
 
-function M.dirvish_or_buffer_dir() 
+function M.dirvish_or_buffer_dir()
     -- return current dir if dirvish window, else current buffer's dir
     if vim.o.filetype == "dirvish" then
         return util.expand("%")

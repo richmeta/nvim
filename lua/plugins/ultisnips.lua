@@ -15,6 +15,3 @@ return {
     }
 
 }
-
-
--- TODO: copy over snippets
