@@ -24,7 +24,6 @@ local tmap = mp.tmap
 -- is X os executable
 local executable = vim.fn.executable
 
-
 --
 -- MAPPINGS
 --
@@ -44,11 +43,11 @@ cmap("<C-V>", "<C-R>+")
 noremap("<C-Q>", "<C-V>")
 
 if os.is_unix then
-	-- TODO: what happens on windows ( is it automatic ? )
-	local paste_i = "<C-g>u" .. vim.g["paste#paste_cmd"]["i"]
-	local paste_v = vim.g["paste#paste_cmd"]["v"]
-	inoremap("<C-V>", paste_i, { script = true })
-	vnoremap("<C-V>", paste_v, { script = true })
+    -- TODO: what happens on windows ( is it automatic ? )
+    local paste_i = "<C-g>u" .. vim.g["paste#paste_cmd"]["i"]
+    local paste_v = vim.g["paste#paste_cmd"]["v"]
+    inoremap("<C-V>", paste_i, { script = true })
+    vnoremap("<C-V>", paste_v, { script = true })
 end
 
 -- Use CTRL-S for saving, also in Insert mode (<C-O> doesn't work well when using completions).
@@ -86,60 +85,60 @@ nnoremap("<Leader>wN", [[:let @/='\<'.expand('<cword>').'\>'<bar>split<bar>norma
 
 -- \xf = format xml
 if executable("xml_pp") then
-	-- xml_pp = xml pretty print from XML::Twig
-	nnoremap("<Leader>xf", ":silent %!xml_pp - <cr>")
-	vnoremap("<Leader>xf", ":!xml_pp - <cr>")
+    -- xml_pp = xml pretty print from XML::Twig
+    nnoremap("<Leader>xf", ":silent %!xml_pp - <cr>")
+    vnoremap("<Leader>xf", ":!xml_pp - <cr>")
 end
 
 -- \hf = format html
 if executable("html_pp") then
-	-- html_pp = html pretty print using Beautiful Soup
-	nnoremap("<Leader>hf", ":silent %!html_pp - <cr>")
-	vnoremap("<Leader>hf", ":!html_pp - <cr>")
+    -- html_pp = html pretty print using Beautiful Soup
+    nnoremap("<Leader>hf", ":silent %!html_pp - <cr>")
+    vnoremap("<Leader>hf", ":!html_pp - <cr>")
 end
 
 if executable("python3") then
-	-- \jf = format json
-	nnoremap(
-		"<Leader>jf",
-		":silent %!python3 -c 'import sys,json;print(json.dumps(json.loads(sys.stdin.read()),sort_keys=False,indent=4))' - <cr><cr>:setf json<cr>"
-	)
-	vnoremap(
-		"<Leader>jf",
-		":!python3 -c 'import sys,json;print(json.dumps(json.loads(sys.stdin.read()),sort_keys=False,indent=4))' - <cr><cr>"
-	)
+    -- \jf = format json
+    nnoremap(
+        "<Leader>jf",
+        ":silent %!python3 -c 'import sys,json;print(json.dumps(json.loads(sys.stdin.read()),sort_keys=False,indent=4))' - <cr><cr>:setf json<cr>"
+    )
+    vnoremap(
+        "<Leader>jf",
+        ":!python3 -c 'import sys,json;print(json.dumps(json.loads(sys.stdin.read()),sort_keys=False,indent=4))' - <cr><cr>"
+    )
 
-	-- \pf = format pprint
-	nnoremap(
-		"<Leader>pf",
-		":silent %!python3 -c 'import sys, pprint; pprint.PrettyPrinter(indent=2, compact=True).pprint(eval(sys.stdin.read()))' - <cr><cr>"
-	)
-	vnoremap(
-		"<Leader>pf",
-		":!python3 -c 'import sys, pprint; pprint.PrettyPrinter(indent=2).pprint(eval(sys.stdin.read()))' - <cr><cr>"
-	)
+    -- \pf = format pprint
+    nnoremap(
+        "<Leader>pf",
+        ":silent %!python3 -c 'import sys, pprint; pprint.PrettyPrinter(indent=2, compact=True).pprint(eval(sys.stdin.read()))' - <cr><cr>"
+    )
+    vnoremap(
+        "<Leader>pf",
+        ":!python3 -c 'import sys, pprint; pprint.PrettyPrinter(indent=2).pprint(eval(sys.stdin.read()))' - <cr><cr>"
+    )
 end
 
 if executable("base64") then
-	-- \bf = format base64
-	vnoremap("<Leader>bf", [[y:let @"=system('base64 -d', @")<cr>gvP]])
+    -- \bf = format base64
+    vnoremap("<Leader>bf", [[y:let @"=system('base64 -d', @")<cr>gvP]])
 end
 
 if executable("erlfmtx") then
-	-- \ef = format with erlfmt
-	nnoremap("<Leader>ef", ":silent %!erlfmtx --print-width 120 - <cr><cr>")
-	vnoremap("<Leader>ef", ":!erlfmtx --print-width 120 - <cr><cr>")
+    -- \ef = format with erlfmt
+    nnoremap("<Leader>ef", ":silent %!erlfmtx --print-width 120 - <cr><cr>")
+    vnoremap("<Leader>ef", ":!erlfmtx --print-width 120 - <cr><cr>")
 elseif executable("erlfmt") then
-	-- fallback
-	nnoremap("<Leader>ef", ":silent %!erlfmt --print-width 120 - <cr><cr>")
-	vnoremap("<Leader>ef", ":!erlfmt --print-width 120 - <cr><cr>")
+    -- fallback
+    nnoremap("<Leader>ef", ":silent %!erlfmt --print-width 120 - <cr><cr>")
+    vnoremap("<Leader>ef", ":!erlfmt --print-width 120 - <cr><cr>")
 end
 
 -- shift-F1 - help current word
 -- <S-F1> == F13
 nnoremap("<F13>", function()
-	local cmd = "help " .. util.expand("<cword>")
-	util.execute(cmd)
+    local cmd = "help " .. util.expand("<cword>")
+    util.execute(cmd)
 end)
 
 vnoremap("<F13>", [[:<C-U>execute 'help '.getline("'<")[getpos("'<")[2]-1:getpos("'>")[2]-2]<cr>]])
@@ -189,8 +188,8 @@ nnoremap("<Leader>pb", ':echo expand("%:h")<cr>')
 
 -- \wd = set working dir to buffer
 nnoremap("<Leader>wd", function()
-	util.execute("cd ", buffer.dir())
-	util.execute("pwd")
+    util.execute("cd ", buffer.dir())
+    util.execute("pwd")
 end)
 
 -- \ss - save all
@@ -211,20 +210,20 @@ end)
 
 -- \vso = reload vimrc manually
 nnoremap("<Leader>vso", function()
-	for name, _ in pairs(package.loaded) do
-		if name:match("^user") and not name:match("nvim-tree") then
-			package.loaded[name] = nil
-		end
-	end
+    for name, _ in pairs(package.loaded) do
+        if name:match("^user") and not name:match("nvim-tree") then
+            package.loaded[name] = nil
+        end
+    end
 
-	-- reloads init.lua
-	vim.api.nvim_command(":luafile ~/.config/nvim/init.lua")
-	vim.notify("Nvim configuration reloaded!", vim.log.levels.INFO)
+    -- reloads init.lua
+    vim.api.nvim_command(":luafile ~/.config/nvim/init.lua")
+    vim.notify("Nvim configuration reloaded!", vim.log.levels.INFO)
 end)
 
 -- \db = toggle show debug
 nnoremap("<leader>db", function()
-	vim.g.show_debug = not vim.g.show_debug
+    vim.g.show_debug = not vim.g.show_debug
 end)
 
 -- \sb = shebang for bash
@@ -328,16 +327,16 @@ nmap("<c-l>", util.ex("wincmd l"), silent)
 -- \cv = copy filename only (and "f)
 -- \cs = copy stem (and "f)
 nmap("<Leader>cd", function()
-	file.clip({ typ = "dir" }, 1)
+    file.clip({ typ = "dir" }, 1)
 end, silent) -- directory
 nmap("<Leader>cf", function()
-	file.clip({ typ = "full" }, 1)
+    file.clip({ typ = "full" }, 1)
 end, silent) -- full path
 nmap("<Leader>cv", function()
-	file.clip({ typ = "filename" }, 1)
+    file.clip({ typ = "filename" }, 1)
 end, silent) -- filename only
 nmap("<Leader>cs", function()
-	file.clip({ typ = "stem" }, 1)
+    file.clip({ typ = "stem" }, 1)
 end, silent) -- stem only
 
 -- <ctrl-c><ctrl-d> (ins) = insert directory/path
@@ -345,16 +344,16 @@ end, silent) -- stem only
 -- <ctrl-c><ctrl-v> (ins) = insert filename only
 -- <ctrl-c><ctrl-s> (ins) = insert stem
 imap("<C-C><C-D>", function()
-	util.insert_text(buffer.dir())
+    util.insert_text(buffer.dir())
 end, silent)
 imap("<C-C><C-F>", function()
-	util.insert_text(buffer.full())
+    util.insert_text(buffer.full())
 end, silent)
 imap("<C-C><C-V>", function()
-	util.insert_text(buffer.filename())
+    util.insert_text(buffer.filename())
 end, silent)
 imap("<C-C><C-S>", function()
-	util.insert_text(buffer.stem())
+    util.insert_text(buffer.stem())
 end, silent)
 
 -- Ctrl-\ = (terminal) exit insertmode
@@ -371,43 +370,47 @@ map("<Leader>mt", [[:let $VIM_DIR=expand('%:p:h')<cr>:terminal<cr>cd $VIM_DIR<cr
 map("<Leader>dt", [[:if &diff <bar> diffoff <bar> else <bar> diffthis <bar>endif<cr>]])
 
 -- TODO -
+-- instead of these maps
 -- setup a Command to set the various grep options
---    toggle regex mode 
---    grep prompt dir 
+--    GrepRegexMode -  toggle regex mode
+--    GrepBoundary  -  toggle boundary
+--    GrepGlob      -  set glob
+
+--    Grep grep prompt dir
 
 -- \gW = toggle word boundary grep
 -- grep runs from `after/plugin/telescope.lua`
 nnoremap("<leader>gW", function()
-	vim.g.grep_word_boundary = not vim.g.grep_word_boundary
-	vim.notify(tostring(vim.g.grep_word_boundary), vim.log.levels.INFO)
+    vim.g.grep_word_boundary = not vim.g.grep_word_boundary
+    vim.notify(tostring(vim.g.grep_word_boundary), vim.log.levels.INFO)
 end)
 
 -- \gT = toggle filetype on/off
 nnoremap("<leader>gT", function()
-	if vim.g.grep_filetype == "" then
-		local ft = vim.o.filetype
-		if ft and #ft > 0 then
-			vim.g.grep_filetype = ft
-			vim.notify(vim.g.grep_filetype, vim.log.levels.INFO)
-		end
-	else
-		vim.g.grep_filetype = ""
-		vim.notify("off", vim.log.levels.INFO)
-	end
+    if vim.g.grep_filetype == "" then
+        local ft = vim.o.filetype
+        if ft and #ft > 0 then
+            vim.g.grep_filetype = ft
+            vim.notify(vim.g.grep_filetype, vim.log.levels.INFO)
+        end
+    else
+        vim.g.grep_filetype = ""
+        vim.notify("off", vim.log.levels.INFO)
+    end
 end)
 
 -- \gG = set grep glob
 nnoremap("<leader>gG", function()
-	vim.ui.input({ prompt = "glob: ", completion = "file", default = "**/*." }, function(value)
-		-- use <esc> or blank to reset
-		if value then
-			vim.g.grep_glob = value
-			vim.notify(vim.g.grep_glob, vim.log.levels.INFO)
-		else
-			vim.g.grep_glob = ""
-			vim.notify("off", vim.log.levels.INFO)
-		end
-	end)
+    vim.ui.input({ prompt = "glob: ", completion = "file", default = "**/*." }, function(value)
+        -- use <esc> or blank to reset
+        if value then
+            vim.g.grep_glob = value
+            vim.notify(vim.g.grep_glob, vim.log.levels.INFO)
+        else
+            vim.g.grep_glob = ""
+            vim.notify("off", vim.log.levels.INFO)
+        end
+    end)
 end)
 
 --
@@ -423,12 +426,12 @@ mp.toggle("<Leader>ws", "wrapscan")
 -- F6 = syntax on/off
 -- map <F6> :if exists("syntax_on") <bar> syntax off <bar> else <bar> syntax enable <bar> endif <cr>
 nnoremap("<F6>", function()
-	local exists = vim.fn.exists("syntax_on")
-	if exists == 1 then
-		util.execute("syntax off")
-	else
-		util.execute("syntax enable")
-	end
+    local exists = vim.fn.exists("syntax_on")
+    if exists == 1 then
+        util.execute("syntax off")
+    else
+        util.execute("syntax enable")
+    end
 end)
 
 -- F7 = toggle hlsearch
@@ -456,12 +459,12 @@ mp.toggle("<F11>", "ignorecase")
 
 -- F12 = toggle quickfix
 nnoremap("<F12>", function()
-	local ids = vim.fn.getqflist({ winid = 1 })
-	if ids.winid ~= 0 then
-		vim.cmd.cclose()
-	else
-		vim.cmd(":botright copen")
-	end
+    local ids = vim.fn.getqflist({ winid = 1 })
+    if ids.winid ~= 0 then
+        vim.cmd.cclose()
+    else
+        vim.cmd(":botright copen")
+    end
 end)
 
 -- \ps = toggle paste
@@ -486,12 +489,12 @@ mp.toggle("<Leader>kd", {
     choices = function()
         local dot = vim.b.lang_dot or "."
         return { dot, "" }
-    end
+    end,
 })
 
 nnoremap("<Leader><C-]>", function()
-	local word = util.expand("<cWORD>")
-	util.execute("tab tjump " .. word)
+    local word = util.expand("<cWORD>")
+    util.execute("tab tjump " .. word)
 end, silent)
 
 nnoremap("<m-1>", "1gt")

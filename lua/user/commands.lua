@@ -1,9 +1,11 @@
 local file = require("user.file")
 local util = require("user.util")
 local os = require("user.os")
+local grep = require("user.grep")
 local scan = require("plenary.scandir")
+local ts_builtin = require("telescope.builtin")
 
--- Vgrep = search nvim lua config
+-- Vgrep = search nvim lua config for key maps
 -- regex = '^\s*".*<args>.*=' in luadir
 vim.api.nvim_create_user_command(
     'Vgrep',
@@ -62,9 +64,25 @@ vim.api.nvim_create_user_command(
             util.execute('tabedit ' .. path)
         end
     end,
-    { 
-        nargs = 1, 
+    {
+        nargs = 1,
         bang = true,
         complete = nopen_complete_func
+    }
+)
+
+-- Grep = run grep
+vim.api.nvim_create_user_command(
+    'Grep',
+    function(opts)
+        grep.grep(ts_builtin.grep_string, {
+            term = opts.args,
+            word = vim.g.grep_word_boundary,
+            glob = vim.g.grep_glob,
+            ftype = vim.g.grep_filetype,
+        })
+    end,
+    {
+        nargs = 1
     }
 )

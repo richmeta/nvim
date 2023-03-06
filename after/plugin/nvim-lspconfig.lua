@@ -55,8 +55,8 @@ local function on_attach(client, bufnr)
     end
 
     if client.supports_method("textDocument/typeDefinition") then
-        -- gt = goto type declaration (lsp)
-        mp.nmap_b("gt", vim.lsp.buf.type_definition)
+        -- td = goto type declaration (lsp)
+        mp.nmap_b("td", vim.lsp.buf.type_definition)
     end
 
     if client.supports_method("textDocument/implementation") then

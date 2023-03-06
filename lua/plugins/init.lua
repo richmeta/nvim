@@ -38,9 +38,9 @@ return {
     { "justinmk/vim-dirvish" },                                 -- yes
     { "nvim-telescope/telescope.nvim" },                        -- yes
 
-    -- snippets 
-    -- TODO: maybe replace with lua snippets?
-    { "SirVer/ultisnips" },                                     -- yes
+    -- snippets
+    -- TODO: replace with lua snippets
+    -- { "SirVer/ultisnips" },                                     -- yes
 
     -- highlighting
     { "t9md/vim-quickhl" },                                     -- yes
@@ -57,10 +57,18 @@ return {
     { "godlygeek/tabular" },
 
     -- erlang
-    { "vim-erlang/vim-erlang-tags", ft = "erlang" },            
+    { "vim-erlang/vim-erlang-tags", ft = "erlang" },
 
     -- terminal
-    { "akinsho/toggleterm.nvim" }                               -- yes
+    { "akinsho/toggleterm.nvim" },                              -- yes
+
+    -- text objects
+    -- TODO: NOT WORKING
+    -- { "kana/vim-textobj-user" },
+    -- { "kana/vim-textobj-line" },
+    -- { "sgur/vim-textobj-parameter" },
+    -- { "kana/vim-textobj-entire" },
+
 }
 
 -- TODO: local plugins
