@@ -1,5 +1,6 @@
 local lsp = require("lspconfig")
 local mp = require("user.map")
+local buffer = require("user.buffer")
 
 -- capabilities
 -- ['textDocument/hover'] = { 'hoverProvider' },
@@ -188,6 +189,24 @@ lsp.lua_ls.setup({
         },
     },
 })
+
+-- TODO: maybe add to toggle
+--  pass source for the setting
+
+-- Ctrl-F5 - toggle LSP errors
+local diagnostics_enabled = true
+local function toggle_diagnostics()
+    local buffer_id = buffer.id()
+    if diagnostics_enabled then
+        vim.diagnostic.disable(buffer_id)
+    else
+        vim.diagnostic.enable(buffer_id)
+    end
+    diagnostics_enabled = not diagnostics_enabled
+end
+
+mp.nnoremap("<F5>", toggle_diagnostics)
+mp.inoremap("<F5>", toggle_diagnostics)
 
 
 -- function _G.activeLSP()

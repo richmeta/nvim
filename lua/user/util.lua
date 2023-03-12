@@ -8,7 +8,7 @@ if ok then
 end
 
 -- GLOBALs!
-P = function(v)
+P = function(v)     --ignore
   print(vim.inspect(v))
   return v
 end

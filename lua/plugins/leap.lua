@@ -1,5 +1,3 @@
-
-
 return {
     'ggandor/leap.nvim',
 

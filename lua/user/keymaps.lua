@@ -474,7 +474,8 @@ mp.toggle("<Leader>ps", "paste")
 mp.toggle("<Leader>cc", "cursorcolumn")
 
 -- \sr = toggle splitright
-mp.toggle("<Leader>sr", "splitright")
+-- TODO: find new mapping with snippet-reload
+-- mp.toggle("<Leader>sr", "splitright")
 
 -- \sl = toggle selection (exclusive/inclusive)
 mp.toggle("<Leader>sl", { setting = "selection", choices = { "inclusive", "exclusive" } })

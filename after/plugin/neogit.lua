@@ -1,8 +1,8 @@
 local Path = require("plenary.path")
-local a = require("plenary.async")
 local util = require("user.util")
 local buffer = require("user.buffer")
 local clipboard = require("user.clip")
+local git = require("user.git")
 local mp = require("user.map")
 
 local function not_git()
@@ -11,8 +11,7 @@ end
 
 -- \wg = change working directory to git root
 mp.nnoremap("<Leader>wg", function()
-    local gitcli = require("neogit.lib.git.cli")
-    local gitdir = gitcli.git_root()
+    local gitdir = git.root()
 
     if gitdir then
         util.execute('cd ' .. gitdir)
@@ -24,9 +23,7 @@ end)
 
 -- \cb = copy git branch name
 mp.nnoremap("<Leader>cb", function()
-    local status = require("neogit.status")
-
-    a.run(status.refresh, function()
+    git.status_refresh(function(status)
         local head = status.repo.head.branch
         clipboard.copy(head)
     end)

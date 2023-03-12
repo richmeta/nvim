@@ -1,6 +1,10 @@
 local M = {}
 local util = require("user.util")
 
+function M.id()
+    return vim.api.nvim_get_current_buf()
+end
+
 function M.expand_expr(typ)
     -- returns the expand equiv of `typ`
     -- where typ in 'dir', 'directory', 'filename', 'full', 'fullpath', 'stem'
