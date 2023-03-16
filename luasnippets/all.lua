@@ -9,6 +9,7 @@ local f = ls.function_node
 -- local d = ls.dynamic_node
 -- local r = ls.restore_node
 local fmt = require("luasnip.extras.fmt").fmt
+local u = require("user.snip")
 
 print("loading luasnippets")
 
@@ -41,4 +42,8 @@ return {
             return uuid()
         end, {})
     ),
+
+    s( { trig = "pa", dscr = "parenthesize" },
+        fmt("({})", u.visual(1))
+    )
 }

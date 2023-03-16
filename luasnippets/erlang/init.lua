@@ -105,7 +105,7 @@ return {
     ),
 
     -- top of module
-    s( { trig = "#!", dscr = "escript shebang", snippetType = "autosnippet" }, 
+    s( { trig = "#!", dscr = "shebang", snippetType = "autosnippet" }, 
         t{ '#!/usr/bin/env escript -c', '',
             '-export([main/1]).', '',
             'main(Args) ->',
@@ -290,6 +290,7 @@ end]], {
         u.snip_tmpl("erlang/application.tmpl", module_node(), { delimiters = "£" })
     ),
 
+    -- TODO: move to gitignore filetype, trig = erlang
     s( { trig = "gitignore", dscr = "gitignore template" }, 
         u.snip_tmpl("erlang/gitignore.tmpl", {}, { delimiters = "£" })
     ),

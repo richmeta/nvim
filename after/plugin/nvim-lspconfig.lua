@@ -79,6 +79,7 @@ local function on_attach(client, bufnr)
         -- \ca = run code action (lsp)
         mp.nmap_b("<leader>ca", vim.lsp.buf.code_action)
 
+        -- TODO: not working for python, textDocument/codeLens is not supported
         vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
             group = group,
             pattern = "<buffer>",
