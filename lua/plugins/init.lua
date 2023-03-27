@@ -18,7 +18,6 @@ return {
     { "hrsh7th/nvim-cmp" },                                     -- yes
     { "saadparwaiz1/cmp_luasnip" },
     { "L3MON4D3/LuaSnip", build = "make install_jsregexp" },    -- yes
-    { "lukas-reineke/lsp-format.nvim" },                        -- yes
     { "lvimuser/lsp-inlayhints.nvim" },                         -- yes
     { "ray-x/lsp_signature.nvim" },
     { "neovim/nvim-lspconfig" },
