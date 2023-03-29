@@ -5,7 +5,7 @@ return {
         ensure_installed = { 
             "lua_ls", 
             "pyright",
-            "erlangls", 
+            -- "erlangls", 
             "tsserver",
             -- "docker_compose_language_service"
         }

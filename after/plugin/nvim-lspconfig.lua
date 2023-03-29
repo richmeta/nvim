@@ -79,21 +79,21 @@ local function on_attach(client, bufnr)
         mp.nmap_b("<leader>ca", vim.lsp.buf.code_action)
 
         -- TODO: not working for python, textDocument/codeLens is not supported
-        vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
-            group = group,
-            pattern = "<buffer>",
-            callback = function()
-                vim.lsp.codelens.refresh()
-            end,
-        })
-        -- dirty hack
-        local timer = vim.loop.new_timer()
-        timer:start(300, 0, function()
-            timer:close()
-            vim.schedule_wrap(function()
-                vim.lsp.codelens.refresh()
-            end)()
-        end)
+        -- vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+        --     group = group,
+        --     pattern = "<buffer>",
+        --     callback = function()
+        --         vim.lsp.codelens.refresh()
+        --     end,
+        -- })
+        -- -- dirty hack
+        -- local timer = vim.loop.new_timer()
+        -- timer:start(300, 0, function()
+        --     timer:close()
+        --     vim.schedule_wrap(function()
+        --         vim.lsp.codelens.refresh()
+        --     end)()
+        -- end)
     end
 
     if client.supports_method("textDocument/signatureHelp") then

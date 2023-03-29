@@ -9,18 +9,18 @@ return {
     { "nvim-treesitter/playground" },
 
     -- lsp
-    { "williamboman/mason.nvim", opts = {} },
+    { "williamboman/mason.nvim", opts = {}, build = ":MasonUpdate" },
     { "williamboman/mason-lspconfig.nvim" },                    -- yes
-    { "hrsh7th/cmp-nvim-lsp" },
+    { "L3MON4D3/LuaSnip", build = "make install_jsregexp" },    -- yes
+    { "neovim/nvim-lspconfig" },
     { "hrsh7th/cmp-buffer" },
-    { "hrsh7th/cmp-path" },
     { "hrsh7th/cmp-cmdline" },
+    { "hrsh7th/cmp-nvim-lsp" },
+    { "hrsh7th/cmp-path" },
     { "hrsh7th/nvim-cmp" },                                     -- yes
     { "saadparwaiz1/cmp_luasnip" },
-    { "L3MON4D3/LuaSnip", build = "make install_jsregexp" },    -- yes
     { "lvimuser/lsp-inlayhints.nvim" },                         -- yes
     { "ray-x/lsp_signature.nvim" },
-    { "neovim/nvim-lspconfig" },
 
     -- TODO: configure
     { "ThePrimeagen/harpoon" },
@@ -36,10 +36,6 @@ return {
     -- files, buffers
     { "justinmk/vim-dirvish" },                                 -- yes
     { "nvim-telescope/telescope.nvim" },                        -- yes
-
-    -- snippets
-    -- TODO: replace with lua snippets
-    -- { "SirVer/ultisnips" },                                     -- yes
 
     -- highlighting
     { "t9md/vim-quickhl" },                                     -- yes

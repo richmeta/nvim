@@ -59,6 +59,20 @@ local function find_next_choice(current_value, choices)
     error(string.format("Current value doesn't match choices. Add '%s' to choices '%s'.", current_value, vim.inspect(choices)))
 end
 
+-- TODO
+-- support toggling on variables
+--   { 'variable':  vim.g.some_variable, 'type': bool }
+--      'type' could be optional, if omitted infer
+-- 
+-- support toggling to call function(next_value)
+--  { 'callback': function(current, next)
+--
+-- separate toggle from creating as mapping
+--   toggle - function
+--   map_toggle - mapping to create the toggle
+--
+-- move to own module
+
 function M.toggle(mapping, arg)
     -- create a normal mapping to
     -- toggle a setting over list of available values

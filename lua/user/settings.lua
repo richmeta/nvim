@@ -1,4 +1,4 @@
-local os = require("user.os")
+local los = require("user.os")
 
 local o   = vim.o       -- set: options
 local opt = vim.opt     -- lua api for options, lists etc
@@ -64,7 +64,7 @@ o.tagbsearch = true
 o.fixendofline = false
 o.mouse = "a"
 o.selection = "inclusive"
-o.dictionary = os.nvim_config_dir .. "/dict/dict.txt"
+o.dictionary = los.nvim_config_dir .. "/dict/dict.txt"
 o.pastetoggle = "<Leader>ps"
 opt.diffopt:append("algorithm:patience")
 
@@ -76,3 +76,9 @@ end
 vim.env.BASH_ENV = '~/.bash_aliases'
 
 vim.cmd.filetype("plugin indent on")
+
+if los.is_gui then
+    -- enables <M-x> mappings
+    vim.g.neovide_input_macos_alt_is_meta = true
+    vim.g.neovide_remember_window_size = true
+end

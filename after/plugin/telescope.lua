@@ -1,6 +1,6 @@
 local util = require("user.util")
 local table = require("table")
-local os = require("user.os")
+local los = require("user.os")
 local grep = require("user.grep")
 
 -- Telescope
@@ -33,7 +33,7 @@ nnoremap("<m-p>", function()
         dir = vim.fn.getcwd()
     end
 
-    if file.path_equal(dir, os.home_dir) then
+    if file.path_equal(dir, los.home_dir) then
         vim.notify("find_files: disabled in HOME", vim.log.levels.INFO)
     else
         ts_builtin.find_files()

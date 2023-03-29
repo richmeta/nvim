@@ -45,5 +45,45 @@ return {
 
     s( { trig = "pa", dscr = "parenthesize" },
         fmt("({})", u.visual(1))
-    )
+    ),
+
+    s( { trig = "now", dscr = "datetime dd/mm/yy hh24:mi:ss" },
+        f(function()
+            return os.date("%d/%m/%Y %H:%M:%S", os.time())
+        end, {})
+    ),
+
+    s( { trig = "date", dscr = "date dd/mm/yy" },
+        f(function()
+            return os.date("%d/%m/%Y", os.time())
+        end, {})
+    ),
+
+    s( { trig = "time", dscr = "hh24:mi:ss" },
+        f(function()
+            return os.date("%H:%M:%S", os.time())
+        end, {})
+    ),
+
+    s( { trig = "yest", dscr = "yesterdays date" },
+        f(function()
+            local when = os.time() - 86400
+            return os.date("%d/%m/%Y %H:%M:%S", when)
+        end, {})
+    ),
+
+    s( { trig = "iso", dscr = "now iso formatted" },
+        f(function()
+            return os.date("%Y-%m-%dT%H:%M:%S", os.time())
+        end, {})
+    ),
+
+    s( { trig = "uiso", dscr = "now iso formatted utc" },
+        f(function()
+            -- ! formats as UTC
+            return os.date("!%Y-%m-%dT%H:%M:%SZ", os.time())
+        end, {})
+    ),
+
+
 }

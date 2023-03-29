@@ -38,7 +38,7 @@ function M.debug(...)
         local arg={...}
         local msg = ""
         for _, v in ipairs(arg) do
-            msg = msg .. v
+            msg = msg .. tostring(v)
         end
         print(msg)  -- as echom
     end
@@ -88,6 +88,9 @@ end
 
 -- inserts `value` at current cursor pos
 function M.insert_text(value)
+    if not value or #value == 0 then
+        return
+    end
     local pos = vim.api.nvim_win_get_cursor(0)
     vim.api.nvim_buf_set_text(0, pos[1]-1, pos[2], pos[1]-1, pos[2], { value })
     vim.api.nvim_win_set_cursor(0, { pos[1], pos[2] + string.len(value) })

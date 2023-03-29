@@ -33,7 +33,7 @@ return {
     s( "StringIO", t{'from io import StringIO', ''} ),
 
     s( { trig = "pdb", dscr = "pdb trace" },
-        t{'__import__("pdb").set_trace()', ''}
+        t{'__import__("pdb").set_trace()'}
     ),
 
     s( { trig = "logging", dscr = "setup logging" }, fmt(

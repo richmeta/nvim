@@ -1,4 +1,11 @@
 local cmp = require("cmp")
+local ls = require("luasnip")
+
+local function has_words_before()
+    unpack = unpack or table.unpack
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
 
 return {
     "hrsh7th/nvim-cmp",
@@ -6,7 +13,7 @@ return {
     opts = {
         snippet = {
             expand = function(args)
-                require("luasnip").lsp_expand(args.body)
+                ls.lsp_expand(args.body)
             end,
         },
         window = {
@@ -18,7 +25,37 @@ return {
             ["<C-n>"] = cmp.mapping.scroll_docs(4),
             ["<C-Space>"] = cmp.mapping.complete(),
             ["<C-e>"] = cmp.mapping.abort(),
-            ["<cr>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            ["<cr>"] = cmp.mapping.confirm({ select = true }),
+
+            ["<Tab>"] = cmp.mapping(function(fallback)
+                if ls.expand_or_jumpable() then
+                    ls.expand_or_jump()
+                elseif cmp.visible() then
+                    cmp.select_next_item()
+                elseif has_words_before() then
+                    cmp.complete()
+                else
+                    fallback()
+                end
+            end, { "i", "s" }),
+
+            ["<S-Tab>"] = cmp.mapping(function(fallback)
+                    if ls.jumpable(-1) then
+                        ls.jump(-1)
+                    elseif cmp.visible() then
+                        cmp.select_prev_item()
+                    else
+                        fallback()
+                    end
+            end, { "i", "s" }),
+
+            ["<C-j>"] = cmp.mapping(function(fallback)
+                if ls.choice_active() then
+                    ls.change_choice(1)
+                else
+                    fallback()
+                end
+            end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
             { name = "nvim_lsp" },
@@ -29,21 +66,3 @@ return {
     },
 }
 
--- TODO: after
--- -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
--- cmp.setup.cmdline({ '/', '?' }, {
---   mapping = cmp.mapping.preset.cmdline(),
---   sources = {
---     { name = 'buffer' }
---   }
--- })
-
--- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
--- cmp.setup.cmdline(':', {
---   mapping = cmp.mapping.preset.cmdline(),
---   sources = cmp.config.sources({
---     { name = 'path' }
---   }, {
---     { name = 'cmdline' }
---   })
--- })

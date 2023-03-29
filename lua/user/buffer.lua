@@ -44,6 +44,10 @@ function M.stem()
     return M.expand("stem")
 end
 
+function M.has_filetype()
+    return vim.bo.filetype ~= ""
+end
+
 function M.dirvish_or_buffer_dir()
     -- return current dir if dirvish window, else current buffer's dir
     if vim.o.filetype == "dirvish" then

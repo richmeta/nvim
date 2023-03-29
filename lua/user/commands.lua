@@ -1,6 +1,6 @@
 local file = require("user.file")
 local util = require("user.util")
-local os = require("user.os")
+local los = require("user.os")
 local grep = require("user.grep")
 local scan = require("plenary.scandir")
 local ts_builtin = require("telescope.builtin")
@@ -11,7 +11,7 @@ vim.api.nvim_create_user_command(
     'Vgrep',
     function(opts)
         local arg = opts.args:gsub('\\', '\\\\')    -- need double delimited for leader mappings
-        local cmd = string.format("silent grep! '^\\s*--.*%s' %s", arg, os.nvim_config_dir)
+        local cmd = string.format("silent grep! '^\\s*--.*%s' %s", arg, los.nvim_config_dir)
         util.execute(cmd)
         util.execute("cwindow")
     end,
@@ -84,5 +84,17 @@ vim.api.nvim_create_user_command(
     end,
     {
         nargs = 1
+    }
+)
+
+-- R - reload lua module
+vim.api.nvim_create_user_command(
+    'R',
+    function(opts)
+        R(opts.args)
+        print("ok")
+    end,
+    {
+        nargs = "+"
     }
 )

@@ -2,7 +2,7 @@ local mp = require("user.map")
 local util = require("user.util")
 local file = require("user.file")
 local buffer = require("user.buffer")
-local os = require("user.os")
+local los = require("user.os")
 
 -- local setup
 local silent = { silent = true }
@@ -42,7 +42,7 @@ cmap("<C-V>", "<C-R>+")
 -- ctrl-q = blockwise visual select
 noremap("<C-Q>", "<C-V>")
 
-if os.is_unix then
+if los.is_unix then
     -- TODO: what happens on windows ( is it automatic ? )
     local paste_i = "<C-g>u" .. vim.g["paste#paste_cmd"]["i"]
     local paste_v = vim.g["paste#paste_cmd"]["v"]
@@ -204,7 +204,7 @@ vnoremap("<Leader>vs", ":sort<cr>")
 
 -- \vrc - open vimrc
 nnoremap("<Leader>vrc", function()
-    local fn = os.nvim_config_dir .. "/lua/user/init.lua"
+    local fn = los.nvim_config_dir .. "/lua/user/init.lua"
     vim.cmd.tabedit(fn)
 end)
 
@@ -344,16 +344,24 @@ end, silent) -- stem only
 -- <ctrl-c><ctrl-v> (ins) = insert filename only
 -- <ctrl-c><ctrl-s> (ins) = insert stem
 imap("<C-C><C-D>", function()
-    util.insert_text(buffer.dir())
+    if buffer.has_filetype() then
+        util.insert_text(buffer.dir())
+    end
 end, silent)
 imap("<C-C><C-F>", function()
-    util.insert_text(buffer.full())
+    if buffer.has_filetype() then
+        util.insert_text(buffer.full())
+    end
 end, silent)
 imap("<C-C><C-V>", function()
-    util.insert_text(buffer.filename())
+    if buffer.has_filetype() then
+        util.insert_text(buffer.filename())
+    end
 end, silent)
 imap("<C-C><C-S>", function()
-    util.insert_text(buffer.stem())
+    if buffer.has_filetype() then
+        util.insert_text(buffer.stem())
+    end
 end, silent)
 
 -- Ctrl-\ = (terminal) exit insertmode
@@ -473,10 +481,6 @@ mp.toggle("<Leader>ps", "paste")
 -- \cc = toggle cursorcolumn
 mp.toggle("<Leader>cc", "cursorcolumn")
 
--- \sr = toggle splitright
--- TODO: find new mapping with snippet-reload
--- mp.toggle("<Leader>sr", "splitright")
-
 -- \sl = toggle selection (exclusive/inclusive)
 mp.toggle("<Leader>sl", { setting = "selection", choices = { "inclusive", "exclusive" } })
 
@@ -507,3 +511,12 @@ nnoremap("<m-6>", "6gt")
 nnoremap("<m-7>", "7gt")
 nnoremap("<m-8>", "8gt")
 nnoremap("<m-9>", "9gt")
+
+if los.is_mac then
+    -- support Cmd+C/V
+    map("<D-v>", "<C-v>", { remap = true } )
+    imap("<D-v>", "<C-v>", { remap = true } )
+    map("<D-c>", "<C-c>", { remap = true } )
+    imap("<D-c>", "<C-c>", { remap = true } )
+end
+
