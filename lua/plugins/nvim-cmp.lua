@@ -11,6 +11,9 @@ return {
     "hrsh7th/nvim-cmp",
 
     opts = {
+        completion = {
+            autocomplete = false,
+        },
         snippet = {
             expand = function(args)
                 ls.lsp_expand(args.body)
@@ -25,7 +28,7 @@ return {
             ["<C-n>"] = cmp.mapping.scroll_docs(4),
             ["<C-Space>"] = cmp.mapping.complete(),
             ["<C-e>"] = cmp.mapping.abort(),
-            ["<cr>"] = cmp.mapping.confirm({ select = true }),
+            ["<cr>"] = cmp.mapping.confirm({ select = false }),
 
             ["<Tab>"] = cmp.mapping(function(fallback)
                 if ls.expand_or_jumpable() then
