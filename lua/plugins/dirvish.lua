@@ -1,4 +1,6 @@
 local git = require("user.git")
+local mp = require("user.map")
+local fn = mp.fn_term
 
 return {
     "justinmk/vim-dirvish",
@@ -21,7 +23,7 @@ return {
         end, mode = "n" },
 
         -- Shift-<F4> = vsplit + dirvish current dir
-        { "<f16>", "<Plug>(dirvish_vsplit_up)", mode = "n", noremap = true },
+        { fn("<S-F4>"), "<Plug>(dirvish_vsplit_up)", mode = "n", noremap = true },
 
         -- \F4 = dirvish from this directory or file (tab)
         { "<leader><F4>", function()
@@ -29,8 +31,7 @@ return {
         end, mode = "n" },
 
         -- <Ctrl-F4> = dirvish git root dir (newtab)
-        -- TODO: not working
-        { "<C-F4>", function()
+        { fn("<C-F4>"), function()
             vim.cmd(string.format("tabedit +Dirvish %s", git.root()))
           end, mode = "n" }
     }

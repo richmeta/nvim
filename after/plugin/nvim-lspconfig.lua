@@ -103,13 +103,12 @@ local function on_attach(client, bufnr)
 
     if client.supports_method("textDocument/rangeFormatting") then
         -- ctrl-F5 = format code (lsp)
-        mp.vmap_b("<c-f5>", vim.lsp.buf.format)
+        mp.vmap_b("<C-f5>", vim.lsp.buf.format)
     end
 
     if client.supports_method("textDocument/formatting") then
         -- ctrl-F5 = format code (lsp)
-        mp.nmap_b("<c-f5>", function() 
-            -- TODO: keymaps not working in terminal
+        mp.nmap_b("<C-f5>", function() 
             vim.lsp.buf.format()
         end)
     end

@@ -135,13 +135,12 @@ elseif executable("erlfmt") then
 end
 
 -- shift-F1 - help current word
--- <S-F1> == F13
-nnoremap("<F13>", function()
+nnoremap("<S-F1>", function()
     local cmd = "help " .. util.expand("<cword>")
     util.execute(cmd)
 end)
 
-vnoremap("<F13>", [[:<C-U>execute 'help '.getline("'<")[getpos("'<")[2]-1:getpos("'>")[2]-2]<cr>]])
+vnoremap("<S-F1>", [[:<C-U>execute 'help '.getline("'<")[getpos("'<")[2]-1:getpos("'>")[2]-2]<cr>]])
 
 -- \ye = copy EOL into clipboard
 nnoremap("<Leader>ye", '"+y$')
