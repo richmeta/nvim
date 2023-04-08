@@ -23,6 +23,7 @@ return {
     end,
 
     keys = {
+        -- TODO: \se - snippet edit
         { "<leader>sr", snippet_load, mode = "n" },
     },
 }

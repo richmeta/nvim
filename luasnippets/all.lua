@@ -11,8 +11,6 @@ local f = ls.function_node
 local fmt = require("luasnip.extras.fmt").fmt
 local u = require("user.snip")
 
-print("loading luasnippets")
-
 math.randomseed(os.time())
 
 local function uuid()

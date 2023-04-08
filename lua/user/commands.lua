@@ -5,6 +5,50 @@ local grep = require("user.grep")
 local scan = require("plenary.scandir")
 local ts_builtin = require("telescope.builtin")
 
+if los.is_unix then
+    -- sudo write
+    vim.api.nvim_create_user_command(
+        'W',
+        function()
+            vim.fn.echo("Password: ")
+            vim.fn.execute("write !sudo tee % >/dev/null")
+            vim.fn.execute("silent! edit!")
+        end,
+        {
+            nargs = 0
+        }
+    )
+
+    -- :WX = save + chmod+x
+    vim.api.nvim_create_user_command(
+        'WX',
+        function()
+            vim.fn.execute("write")
+            vim.fn.execute("write !chmod a+x % >/dev/null")
+            vim.fn.execute("silent! edit!")
+        end,
+        {
+            nargs = 0
+        }
+    )
+
+
+elseif los.is_win then
+    -- :WR = remove readonly flag
+    vim.api.nvim_create_user_command(
+        'WR',
+        function()
+            vim.fn.execute("write")
+            vim.fn.execute("write !attrib -r %")
+            vim.fn.execute("silent! edit!")
+        end,
+        {
+            nargs = 0
+        }
+    )
+end
+
+
 -- Vgrep = search nvim lua config for key maps
 -- regex = '^\s*".*<args>.*=' in luadir
 vim.api.nvim_create_user_command(

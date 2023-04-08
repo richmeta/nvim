@@ -31,7 +31,6 @@ local util = require("user.util")
 
 --------------------------------------------------------------------------------
 
-local group = vim.api.nvim_create_augroup("LSPAutoCmd", {})
 
 local function on_attach(client, bufnr)
     if client.supports_method("textDocument/inlayHint") then
@@ -70,7 +69,7 @@ local function on_attach(client, bufnr)
     end
 
     if client.supports_method("textDocument/rename") then
-        -- gD = goto declaration (lsp)
+        -- \rn = goto declaration (lsp)
         mp.nmap_b("<leader>rn", vim.lsp.buf.rename)
     end
 
@@ -108,9 +107,7 @@ local function on_attach(client, bufnr)
 
     if client.supports_method("textDocument/formatting") then
         -- ctrl-F5 = format code (lsp)
-        mp.nmap_b("<C-f5>", function() 
-            vim.lsp.buf.format()
-        end)
+        mp.nmap_b("<C-f5>", vim.lsp.buf.format)
     end
 
     -- gF = diagnostics float (lsp)
@@ -211,18 +208,3 @@ mp.nnoremap("<F5>", toggle_diagnostics)
 mp.inoremap("<F5>", toggle_diagnostics)
 
 
--- function _G.activeLSP()
---     local servers = {}
---     for _, lsp in pairs(vim.lsp.get_active_clients()) do
---         table.insert(servers, { name = lsp.name, id = lsp.id })
---     end
---     _G.P(servers)
--- end
-
--- function _G.bufferActiveLSP()
---     local servers = {}
---     for _, lsp in pairs(vim.lsp.buf_get_clients()) do
---         table.insert(servers, { name = lsp.name, id = lsp.id })
---     end
---     _G.P(servers)
--- end

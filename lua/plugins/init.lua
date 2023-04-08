@@ -20,7 +20,7 @@ return {
     { "hrsh7th/nvim-cmp" },                                     -- yes
     { "saadparwaiz1/cmp_luasnip" },
     { "lvimuser/lsp-inlayhints.nvim" },                         -- yes
-    { "ray-x/lsp_signature.nvim" },
+    { "ray-x/lsp_signature.nvim" },                             -- yes
 
     -- TODO: configure
     { "ThePrimeagen/harpoon" },
