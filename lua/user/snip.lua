@@ -21,8 +21,9 @@ function M.visual(ji)
     end, {})
 end
 
-function M.snip_tmpl(path, nodes, opts)
-    local fullpath = file.join(vim.fn.stdpath("config"), "luasnippets", path)
+-- function M.snip_tmpl(path, nodes, opts)
+function M.snip_tmpl(ft, name, nodes, opts)
+    local fullpath = file.join(vim.fn.stdpath("config"), "luasnippets", "templates", ft, string.format("%s.tmpl", name))
 
     local lines = {}
     for line in io.lines(fullpath) do

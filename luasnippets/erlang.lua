@@ -94,7 +94,7 @@ return {
         var_list_node(1, "io:format", { newline = true })
     ),
 
-    s( { trig = "?debugFmt%s+(.*)", dscr = "debugFmt helper", regTrig = true, wordTrig = false },
+    s( { trig = "debugFmt%s+(.*)", dscr = "debugFmt helper", regTrig = true, wordTrig = false },
         var_list_node(1, "?debugFmt")
     ),
 
@@ -271,28 +271,23 @@ end]], {
 
     -- expanded from template files
     s( { trig = "gen_server", dscr = "gen_server template" }, 
-        u.snip_tmpl("erlang/gen_server.tmpl", module_node(), { delimiters = "£" })
+        u.snip_tmpl("erlang", "gen_server", module_node(), { delimiters = "£" })
     ),
 
     s( { trig = "ct", dscr = "ct template" }, 
-        u.snip_tmpl("erlang/ct.tmpl", module_node(), { delimiters = "£" })
+        u.snip_tmpl("erlang", "ct", module_node(), { delimiters = "£" })
     ),
 
     s( { trig = "eunit", dscr = "eunit template" }, 
-        u.snip_tmpl("erlang/eunit.tmpl", module_node(), { delimiters = "£" })
+        u.snip_tmpl("erlang", "eunit", module_node(), { delimiters = "£" })
     ),
 
     s( { trig = "supervisor", dscr = "supervisor template" }, 
-        u.snip_tmpl("erlang/supervisor.tmpl", module_node(), { delimiters = "£" })
+        u.snip_tmpl("erlang", "supervisor", module_node(), { delimiters = "£" })
     ),
 
     s( { trig = "application", dscr = "application template" }, 
-        u.snip_tmpl("erlang/application.tmpl", module_node(), { delimiters = "£" })
-    ),
-
-    -- TODO: move to gitignore filetype, trig = erlang
-    s( { trig = "gitignore", dscr = "gitignore template" }, 
-        u.snip_tmpl("erlang/gitignore.tmpl", {}, { delimiters = "£" })
+        u.snip_tmpl("erlang", "application", module_node(), { delimiters = "£" })
     ),
 
 }
