@@ -6,7 +6,7 @@ end
 if los.is_mac then
     vim.o.guifont = "Droid Sans Mono for Powerline:h14"
 elseif los.is_unix then
-    vim.o.guifont = "DroidSansMono Nerd Font:h11,Consolas:h10:cANSI"
+    vim.o.guifont = "DroidSansMono Nerd Font:h10"
 else
     vim.o.guifont = [[Consolas\ 10]]
 end

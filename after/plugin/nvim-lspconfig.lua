@@ -133,6 +133,8 @@ lsp.pyright.setup({
 lsp.erlangls.setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    flags = {
+    }
 })
 
 lsp.tsserver.setup({

@@ -451,12 +451,10 @@ mp.toggle("<F8>", "wrap")
 mp.toggle("<F9>", "list")
 
 -- shift-F8 = toggle number
--- F20 - S-F8
-mp.toggle("<F20>", "number")
+mp.toggle("<S-F8>", "number")
 
 -- shift-F9 = toggle relativenumber
--- F21 - S-F9
-mp.toggle("<F21>", "relativenumber")
+mp.toggle("<S-F9>", "relativenumber")
 
 -- F10 = toggle scrollbind
 mp.toggle("<F10>", "scrollbind")
