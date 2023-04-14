@@ -11,7 +11,7 @@ local t = ls.text_node
 local u = require("user.snip")
 
 
-local function module_node() 
+local function module_node()
     return f(function(_, snip)
         local filename = snip.env.TM_FILENAME
         if filename == "" then
@@ -66,7 +66,7 @@ local function var_list_parse(input, opts)
 end
 
 local function var_list_node(ji, name, opts)
-    return d(ji, function(_args, snip)
+    return d(ji, function(_, snip)
         local data = var_list_parse(snip.captures[1], opts)
         local preamble = ""
         if data.preamble then
@@ -105,7 +105,7 @@ return {
     ),
 
     -- top of module
-    s( { trig = "#!", dscr = "shebang", snippetType = "autosnippet" }, 
+    s( { trig = "#!", dscr = "shebang", snippetType = "autosnippet" },
         t{ '#!/usr/bin/env escript -c', '',
             '-export([main/1]).', '',
             'main(Args) ->',
@@ -166,7 +166,7 @@ end]], {
     s( { trig = "==", dscr = "equals", snippetType = "autosnippet" }, t'=:=' ),
 
     s( { trig = "!=", dscr = "not equals", snippetType = "autosnippet" }, t'=/=' ),
-    
+
     s( { trig = "||", dscr = "list comprehension" },
         fmt("[ {} || {} <- {} ]", {
             i(3), i(2), i(1)
@@ -258,35 +258,35 @@ end]], {
     ),
 
     s( { trig = "int", dscr = "type" },
-        t'integer()' 
+        t'integer()'
     ),
 
     s( { trig = "nni", dscr = "type" },
-        t'non_neg_integer()' 
+        t'non_neg_integer()'
     ),
 
     s( { trig = "pos", dscr = "type" },
-        t'pos_integer()' 
+        t'pos_integer()'
     ),
 
     -- expanded from template files
-    s( { trig = "gen_server", dscr = "gen_server template" }, 
+    s( { trig = "gen_server", dscr = "gen_server template" },
         u.snip_tmpl("erlang", "gen_server", module_node(), { delimiters = "£" })
     ),
 
-    s( { trig = "ct", dscr = "ct template" }, 
+    s( { trig = "ct", dscr = "ct template" },
         u.snip_tmpl("erlang", "ct", module_node(), { delimiters = "£" })
     ),
 
-    s( { trig = "eunit", dscr = "eunit template" }, 
+    s( { trig = "eunit", dscr = "eunit template" },
         u.snip_tmpl("erlang", "eunit", module_node(), { delimiters = "£" })
     ),
 
-    s( { trig = "supervisor", dscr = "supervisor template" }, 
+    s( { trig = "supervisor", dscr = "supervisor template" },
         u.snip_tmpl("erlang", "supervisor", module_node(), { delimiters = "£" })
     ),
 
-    s( { trig = "application", dscr = "application template" }, 
+    s( { trig = "application", dscr = "application template" },
         u.snip_tmpl("erlang", "application", module_node(), { delimiters = "£" })
     ),
 

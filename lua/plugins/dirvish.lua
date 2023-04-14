@@ -11,7 +11,6 @@ return {
         -- <F4> = dirvish current dir
         { "<F4>", "<Plug>(dirvish_up):echo(expand('%'))<cr>", mode = "n", noremap = true },
         { "<F4>", "Dirvish<Space>", mode = "c" },
-        { "<c-t>", "t", mode = "n" },
 
         -- g<F4> = dirvish git root dir
         { "g<F4>", function()

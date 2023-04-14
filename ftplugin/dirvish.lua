@@ -14,6 +14,8 @@ end
 
 mp.nnoremap_b("<Esc>", "<Plug>(dirvish_quit)")
 
+mp.nmap_b("<c-t>", "t")
+
 -- wd = cd (dirvish)
 mp.nnoremap_b("<Leader>wd", function()
     util.execute("cd ", util.expand("%:h"))
