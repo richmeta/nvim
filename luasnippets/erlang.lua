@@ -160,7 +160,7 @@ end]], {
         t'{error, any()}' ),
 
     s( { trig = "doc", dscr = "doc tag" },
-        t'%% @doc '),
+        t'% @doc '),
 
     -- operators
     s( { trig = "==", dscr = "equals", snippetType = "autosnippet" }, t'=:=' ),

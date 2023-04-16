@@ -31,6 +31,17 @@ local util = require("user.util")
 
 --------------------------------------------------------------------------------
 
+local function with_tab(mapfn, mapping, action)
+    mapfn(mapping, function()
+        vim.cmd("tab split")
+        if type(action) == "function" then
+            action()
+        elseif type(action) == "string" then 
+            vim.cmd.execute(action)
+        end
+    end)
+end
+
 
 local function on_attach(client, bufnr)
     if client.supports_method("textDocument/inlayHint") then
@@ -39,13 +50,14 @@ local function on_attach(client, bufnr)
 
     if client.supports_method("textDocument/definition") then
         -- gd = goto definition (lsp)
-        -- TODO: could use C-] here, depending if we're using tags files
         mp.nmap_b("gd", vim.lsp.buf.definition)
+        with_tab(mp.nmap_b, "tgd", vim.lsp.buf.definition)
     end
 
     if client.supports_method("textDocument/declaration") then
         -- gD = goto declaration (lsp)
         mp.nmap_b("gD", vim.lsp.buf.declaration)
+        with_tab(mp.nmap_b, "tgD", vim.lsp.buf.declaration)
     end
 
     if client.supports_method("textDocument/hover") then
@@ -56,11 +68,13 @@ local function on_attach(client, bufnr)
     if client.supports_method("textDocument/typeDefinition") then
         -- td = goto type declaration (lsp)
         mp.nmap_b("td", vim.lsp.buf.type_definition)
+        with_tab(mp.nmap_b, "ttd", vim.lsp.buf.type_definition)
     end
 
     if client.supports_method("textDocument/implementation") then
         -- gi = goto implementation (lsp)
         mp.nmap_b("gi", vim.lsp.buf.implementation)
+        with_tab(mp.nmap_b, "tgi", vim.lsp.buf.implementation)
     end
 
     if client.supports_method("textDocument/references") then

@@ -61,6 +61,9 @@ nnoremap("<leader>br", function()
     })
 end)
 
+-- TODO:
+-- grep visual selected
+
 -- \gw = cwd grep current word
 nnoremap("<leader>gw", function()
     grep.grep(ts_builtin.grep_string, {

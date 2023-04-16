@@ -26,7 +26,6 @@ return {
     { "ThePrimeagen/harpoon" },
 
     -- git
-    { "lewis6991/gitsigns.nvim", opts = {} },
     { "TimUntersberger/neogit", opts = {} },
     { "sindrets/diffview.nvim", opts = {} },
 

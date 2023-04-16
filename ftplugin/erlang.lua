@@ -49,7 +49,7 @@ mp.toggle("<Leader>kd", {
 
 -- \kc = search for handle_cast/call/info/continue under cursor
 mp.nnoremap_b("<Leader>kc", function()
-    local cmd = string.format([[/handle_[castlinfot]\{4}\s*(.*%s]], util.expand("<cword>"))
+    local cmd = string.format([[/handle_[castlinfotue]\+\s*(.*%s]], util.expand("<cword>"))
     -- vim.fn.keepjumps()  TODO; waiting for neovim impl
     util.execute(cmd)
 end)
