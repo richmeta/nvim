@@ -67,6 +67,7 @@ o.selection = "inclusive"
 o.dictionary = los.nvim_config_dir .. "/dict/dict.txt"
 o.pastetoggle = "<Leader>ps"
 o.colorscheme = "iceberg"
+o.autoread = false
 opt.diffopt:append("algorithm:patience")
 
 if vim.fn.executable('rg') then

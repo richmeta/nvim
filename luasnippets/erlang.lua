@@ -25,10 +25,25 @@ local function latin_or_utf8()
     return { t"latin1", t"utf8" }
 end
 
+local function var_list_expand_alias(var)
+    -- M = ?MODULE
+    -- F == ?FUNCTION_NAME
+    -- MF = both
+    if var == "F" then
+        return "?FUNCTION_NAME", "~s"
+    elseif var == "M" then
+        return "?MODULE", "~s"
+    elseif var == "MF" then
+        return "?MODULE, ?FUNCTION_NAME", "~s:~s"
+    else
+        return var, string.format("%s = ~p", var)
+    end
+end
+
 -- formatting var lists
--- eg: some message|A, B, C,
---     ^            ^      ^
---     preamble     spec   ending
+-- eg: some message|A, B, C, nodes(),
+--     ^            ^               ^
+--     preamble     spec            ending
 --
 -- return {
 --    preamble = "some message",
@@ -37,7 +52,7 @@ end
 --    ending = ","
 -- }
 local function var_list_parse(input, opts)
-    local pat_format = "%s*(%w+)%s*,?"
+    local pat_format = "%s*([^,%s]+)%s*,?"
     local preamble, rest = string.match(input, "(.-)|(.*)$")
     if not preamble or #preamble == 0 then
         rest = input
@@ -48,8 +63,9 @@ local function var_list_parse(input, opts)
 
     local _, j, var = string.find(spec, pat_format)
     while var do
-        table.insert(vars, var)
-        table.insert(formats, string.format("%s = ~p", var))
+        local v, fomt = var_list_expand_alias(var)
+        table.insert(vars, v)
+        table.insert(formats, fomt)
         _, j, var = string.find(spec, pat_format, j + 1)
     end
 
@@ -94,7 +110,7 @@ return {
         var_list_node(1, "io:format", { newline = true })
     ),
 
-    s( { trig = "debugFmt%s+(.*)", dscr = "debugFmt helper", regTrig = true, wordTrig = false },
+    s( { trig = "[?]?debugFmt%s+(.*)", dscr = "debugFmt helper", regTrig = true, wordTrig = false },
         var_list_node(1, "?debugFmt")
     ),
 
@@ -269,6 +285,64 @@ end]], {
         t'pos_integer()'
     ),
 
+    -- eunit stuff
+    s( { trig = "etest", desc = "eunit test" },
+       fmt(
+[[{}_test() ->
+    {}]], { i(1), i(2, "ok.") }
+        )
+    ),
+
+    s( { trig = "esetup", desc = "eunit generator" },
+        {
+            i(1),
+            t{ '_test_() ->',
+               '    {',
+               '        setup,',
+               '        fun start/1,',
+               '        fun stop/1,',
+               '        fun '
+            },
+            d(2, function(args)
+                local arg = args[1][1]
+                return sn(2, t(string.format("run_%s_test", arg)))
+            end, 1),
+            t{'/1',
+              '    }.',
+              '',
+              ''},
+            rep(2), t{'(_) ->',
+              '    '},
+            i(3, "ok.")
+        }
+    ),
+
+    s( { trig = "eforeach", desc = "eunit generator" },
+        {
+            i(1),
+            t{ '_test_() ->',
+               '    {',
+               '        foreach,',
+               '        fun start/1,',
+               '        fun stop/1,',
+               '        [',
+               '           fun '
+            },
+            d(2, function(args)
+                local arg = args[1][1]
+                return sn(2, t(string.format("run_%s_test", arg)))
+            end, 1),
+            t{'/1',
+              '        ]',
+              '    }.',
+              '',
+              ''},
+            rep(2), t{'(_) ->',
+              '    '},
+            i(3, "ok.")
+        }
+    ),
+
     -- expanded from template files
     s( { trig = "gen_server", dscr = "gen_server template" },
         u.snip_tmpl("erlang", "gen_server", module_node(), { delimiters = "£" })
@@ -289,6 +363,7 @@ end]], {
     s( { trig = "application", dscr = "application template" },
         u.snip_tmpl("erlang", "application", module_node(), { delimiters = "£" })
     ),
+
 
 }
 
