@@ -3,3 +3,6 @@ note.txt
 lazy-lock.json
 lua/test.lua
 
+# local configs not checked in
+lua/user/local*.lua
+

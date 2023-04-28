@@ -6,5 +6,6 @@ require('user.autocmd')
 require('user.commands')
 require('user.abbrev')
 require('user.gui')
--- require('user.lsp')
--- require('user.local')
+
+-- local configs
+pcall(require, 'user.local')

@@ -1,6 +1,4 @@
-
---                                                              -- own file ?
-return {
+local plugins = {
     -- essential
     { "nvim-lua/plenary.nvim" },
 
@@ -57,12 +55,20 @@ return {
     { "akinsho/toggleterm.nvim" },                              -- yes
 
     -- text objects
-    -- TODO: NOT WORKING
-    -- { "kana/vim-textobj-user" },
-    -- { "kana/vim-textobj-line" },
-    -- { "sgur/vim-textobj-parameter" },
-    -- { "kana/vim-textobj-entire" },
+    { "kana/vim-textobj-line", dependencies = { "kana/vim-textobj-user" }  },
+    { "sgur/vim-textobj-parameter", dependencies = { "kana/vim-textobj-user" }  },
+    { "kana/vim-textobj-entire", dependencies = { "kana/vim-textobj-user" }  },
+
+    -- markdown
+    { "preservim/vim-markdown" },
 
 }
 
--- TODO: local plugins
+-- load any local plugins
+local ok, localplugins = pcall(require, 'user.localplugins')
+if not ok then
+    localplugins = {}
+end
+
+vim.list_extend(plugins, localplugins)
+return plugins

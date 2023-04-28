@@ -19,7 +19,7 @@ return {
 
     config = function()
         -- module level
-        ls = require("luasnip")
+        local ls = require("luasnip")
 
         ls.config.setup({
             history = true,
