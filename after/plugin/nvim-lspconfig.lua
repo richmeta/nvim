@@ -1,7 +1,7 @@
 local lsp = require("lspconfig")
 local mp = require("user.map")
 local buffer = require("user.buffer")
-local util = require("user.util")
+-- local util = require("user.util")
 
 -- capabilities
 -- ['textDocument/hover'] = { 'hoverProvider' },
@@ -30,13 +30,14 @@ local util = require("user.util")
 -- ['textDocument/semanticTokens/full/delta'] = { 'semanticTokensProvider' },
 
 --------------------------------------------------------------------------------
+local group = vim.api.nvim_create_augroup("LSPAutoCmd", {})
 
 local function with_tab(mapfn, mapping, action)
     mapfn(mapping, function()
         vim.cmd("tab split")
         if type(action) == "function" then
             action()
-        elseif type(action) == "string" then 
+        elseif type(action) == "string" then
             vim.cmd.execute(action)
         end
     end)
@@ -51,12 +52,14 @@ local function on_attach(client, bufnr)
     if client.supports_method("textDocument/definition") then
         -- gd = goto definition (lsp)
         mp.nmap_b("gd", vim.lsp.buf.definition)
+        mp.vmap_b("gd", vim.lsp.buf.definition)
         with_tab(mp.nmap_b, "tgd", vim.lsp.buf.definition)
     end
 
     if client.supports_method("textDocument/declaration") then
         -- gD = goto declaration (lsp)
         mp.nmap_b("gD", vim.lsp.buf.declaration)
+        mp.vmap_b("gD", vim.lsp.buf.declaration)
         with_tab(mp.nmap_b, "tgD", vim.lsp.buf.declaration)
     end
 
@@ -68,12 +71,14 @@ local function on_attach(client, bufnr)
     if client.supports_method("textDocument/typeDefinition") then
         -- td = goto type declaration (lsp)
         mp.nmap_b("td", vim.lsp.buf.type_definition)
+        mp.vmap_b("td", vim.lsp.buf.type_definition)
         with_tab(mp.nmap_b, "ttd", vim.lsp.buf.type_definition)
     end
 
     if client.supports_method("textDocument/implementation") then
         -- gi = goto implementation (lsp)
         mp.nmap_b("gi", vim.lsp.buf.implementation)
+        mp.vmap_b("gi", vim.lsp.buf.implementation)
         with_tab(mp.nmap_b, "tgi", vim.lsp.buf.implementation)
     end
 
@@ -89,24 +94,18 @@ local function on_attach(client, bufnr)
 
     if client.supports_method("textDocument/codeAction") then
         -- \ca = run code action (lsp)
-        mp.nmap_b("<leader>ca", vim.lsp.buf.code_action)
+        mp.nmap_b("<leader>ca", function()
+            vim.lsp.codelens.run()
+        end)
 
-        -- TODO: not working for python, textDocument/codeLens is not supported
-        -- vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
-        --     group = group,
-        --     pattern = "<buffer>",
-        --     callback = function()
-        --         vim.lsp.codelens.refresh()
-        --     end,
-        -- })
-        -- -- dirty hack
-        -- local timer = vim.loop.new_timer()
-        -- timer:start(300, 0, function()
-        --     timer:close()
-        --     vim.schedule_wrap(function()
-        --         vim.lsp.codelens.refresh()
-        --     end)()
-        -- end)
+        vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "CursorHold", "InsertLeave" }, {
+            group = group,
+            pattern = "<buffer>",
+            callback = function()
+                -- util.debug("refresh codelens")
+                vim.lsp.codelens.refresh()
+            end,
+        })
     end
 
     if client.supports_method("textDocument/signatureHelp") then

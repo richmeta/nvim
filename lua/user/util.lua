@@ -59,14 +59,13 @@ function M.expand(arg)
     if value == nil or value == "" then
         error("expand("..arg..") is empty")
     end
-    M.debug("expanded: ", value)
     return value
 end
 
 function M.ex(cmdline, immediate)
     -- run an excommand
     -- cmdline can be a single or table of cmds
-    local run = 
+    local run =
         function()
             if type(cmdline) == "string" then
                 vim.api.nvim_command(cmdline)
@@ -99,8 +98,8 @@ end
 function M.len(T)
     if type(T) == "table" then
         local count = 0
-        for _ in pairs(T) do 
-            count = count + 1 
+        for _ in pairs(T) do
+            count = count + 1
         end
         return count
     elseif type(T) == "string" then

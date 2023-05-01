@@ -25,6 +25,9 @@ function M.expand_expr(typ)
 end
 
 function M.expand(typ)
+    if typ == nil then
+        typ = "current"
+    end
     return util.expand(M.expand_expr(typ))
 end
 

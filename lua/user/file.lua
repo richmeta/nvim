@@ -23,7 +23,7 @@ function M.expand_expr(typ)
     error("unknown value for `typ` : " .. typ)
 end
 
-function M.expand(fn, typ) 
+function M.expand(fn, typ)
     return vim.fn.fnamemodify(fn, M.expand_expr(typ))
 end
 
@@ -40,6 +40,10 @@ function M.full(fn)
 end
 
 function M.stem(fn)
+    if string.find(fn, "/$") then
+        -- only tables are passed by reference
+        fn = string.sub(fn, 1, #fn-1)
+    end
     return M.expand(fn, "stem")
 end
 
@@ -83,7 +87,7 @@ function M.clip(opts)
     --     expand = pattern to expand into path
     --     typ = expand by type (dir, full, filename, stem),
     --     populates expand",
-    --     showmsg = false (default) 
+    --     showmsg = false (default)
     -- }
     local path = opts.path
     if not path then

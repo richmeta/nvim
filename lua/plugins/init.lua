@@ -64,7 +64,8 @@ local plugins = {
 
 }
 
--- load any local plugins
+-- load any local plugins, from user/localplugins.lua
+-- eg return {   { "another-plugin", config = {..} } }
 local ok, localplugins = pcall(require, 'user.localplugins')
 if not ok then
     localplugins = {}
