@@ -62,16 +62,19 @@ onoremap("<C-A>", "<C-C>gggH<C-O>G")
 snoremap("<C-A>", "<C-C>gggH<C-O>G")
 xnoremap("<C-A>", "<C-C>ggVG")
 
--- \t = new tab
-nnoremap("<Leader>t", ":tabnew<cr>")
+-- \tt = new tab
+nnoremap("<Leader>tt", ":tabnew<cr>")
+
+-- \td = duplicate tab
+nnoremap("<Leader>tt", ":tab split<cr>")
 
 -- \T = new scratch
 nnoremap("<Leader>T", ":tabnew<bar>setlocal buftype=nofile<cr>")
 
 -- alt-x = tabclose
-nnoremap("<m-x>", ":tabclose<cr>")
+nnoremap("<Leader>tc", ":tabclose<cr>")
 
--- \O = only this tab
+-- \to = only this tab
 nnoremap("<Leader>O", ":tabonly<cr>")
 
 -- \o = tabedit file
@@ -82,6 +85,9 @@ nnoremap("<Leader>wn", ":let @/=expand('<cword>')<bar>split<bar>normal n<cr>")
 
 -- \wN = split window search cword + boundary
 nnoremap("<Leader>wN", [[:let @/='\<'.expand('<cword>').'\>'<bar>split<bar>normal n<cr>]])
+
+-- \sw = start search/replace word under cursor
+nnoremap("<Leader>sw", [[:%s/<c-r><c-w>/]])
 
 -- \xf = format xml
 if executable("xml_pp") then
@@ -517,3 +523,8 @@ if los.is_mac then
     imap("<D-c>", "<C-c>", { remap = true } )
 end
 
+-- \no = Nopen current filetype
+nnoremap("<leader>no", function()
+    local cmd = string.format("Nopen %s", vim.bo.filetype)
+    util.execute(cmd)
+end)
