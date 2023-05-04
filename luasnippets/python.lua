@@ -2,7 +2,6 @@ local ls = require("luasnip")
 local fmt = require("luasnip.extras.fmt").fmt
 local rep = require("luasnip.extras").rep
 local s = ls.snippet
-local c = ls.choice_node
 local f = ls.function_node
 local i = ls.insert_node
 local t = ls.text_node
@@ -15,7 +14,7 @@ return {
         fmt('import {}', i(0))
     ),
 
-    s( { trig = "#!", dscr = "shebang", snippetType = "autosnippet" }, 
+    s( { trig = "#!", dscr = "shebang", snippetType = "autosnippet" },
         t{'#!/usr/bin/env python3', ''}
     ),
 
@@ -53,7 +52,7 @@ if argv.verbose:
     -- constructs
     s( { trig = "with", dscr = "with" }, fmt(
 [[with {}:
-    {}]], { i(1), i(0) }) 
+    {}]], { i(1), i(0) })
     ),
 
     s( { trig = "for", dscr = "for loop" }, fmt(
@@ -71,7 +70,7 @@ if argv.verbose:
 
     s( { trig = "init", dscr = "constructor" }, fmt(
 [[def __init__(self, {}):
- 	{}]],
+    {}]],
         { i(1), i(0, "pass") })
     ),
 
@@ -82,7 +81,7 @@ def {}(self):
 
 @{}.setter
 def {}(self, value):
-    self.{} = value]], 
+    self.{} = value]],
         {
             i(1, "name"),
             i(2, "prop"),
@@ -94,7 +93,7 @@ def {}(self, value):
 
     s( { trig = "if", dscr = "if" }, fmt(
 [[if {}:
-    {}]], 
+    {}]],
         { i(1), i(0, "pass") })
     ),
 
@@ -103,7 +102,7 @@ def {}(self, value):
     {}
 else:
     {}
-]], 
+]],
         { i(1), i(2), i(0, "pass") })
     ),
 
@@ -117,14 +116,14 @@ else:
 [[try:
     {}
 except {} as {}:
-	{}
+    {}
 finally:
     {}
 ]],
         {
-            u.visual(1), 
-            i(2, "Exception"), 
-            i(3, "ex"), 
+            u.visual(1),
+            i(2, "Exception"),
+            i(3, "ex"),
             i(4, "pass"),
             i(5, "pass")
         })
@@ -148,7 +147,7 @@ def {}():
 
 
 if __name__ == "__main__":
- 	{}()]],
+    {}()]],
         {
             rep(1),
             i(0, "pass"),
@@ -165,7 +164,7 @@ async def {}():
 
 
 if __name__ == "__main__":
- 	asyncio.run({}())]],
+    asyncio.run({}())]],
         {
             rep(1),
             i(0, "pass"),
@@ -181,21 +180,21 @@ logger = logging.getLogger(__name__)
 
 
 def parse_args():
-	parser = argparse.ArgumentParser(description="{}")
-	parser.add_argument("--verbose", "-v", action="store_true", help="verbose output")
+    parser = argparse.ArgumentParser(description="{}")
+    parser.add_argument("--verbose", "-v", action="store_true", help="verbose output")
 
-	argv = parser.parse_args()
-	if argv.verbose:
-		logger.setLevel(logging.DEBUG)
-	return argv
+    argv = parser.parse_args()
+    if argv.verbose:
+        logger.setLevel(logging.DEBUG)
+    return argv
 
 
 def main():
-	argv = parse_args()
+    argv = parse_args()
 
 
 if __name__ == '__main__':
-	main()
+    main()
 ]],
         i(0) )
     ),
@@ -203,10 +202,10 @@ if __name__ == '__main__':
     -- argparse
     s( { trig = "parse_args", dscr = "parse args" }, fmt(
 [[def parse_args():
-	parser = argparse.ArgumentParser(description="{}")
-	parser.add_argument("--verbose", "-v", action="store_true", help="verbose output")
+    parser = argparse.ArgumentParser(description="{}")
+    parser.add_argument("--verbose", "-v", action="store_true", help="verbose output")
 
-	return parser.parse_args()
+    return parser.parse_args()
 ]],
         i(0) )
     ),
@@ -214,7 +213,7 @@ if __name__ == '__main__':
     s( { trig = "addarg", dscr = "argparse.add_argument" }, fmt(
 [[parser.add_argument("{}", "{}", {}help="{}")]],
         { i(1, "--arg"),
-          f(function(arg) 
+          f(function(arg)
               local value = arg[1][1]
               if #value > 0 then
                 return value:match("-%w")
@@ -233,47 +232,47 @@ logger = logging.getLogger(__name__)
 
 
 def parse_args():
-	parser = argparse.ArgumentParser(description="switch aws credentials")
-	parser.add_argument("--verbose", "-v", action="store_true", help="verbose output")
+    parser = argparse.ArgumentParser(description="switch aws credentials")
+    parser.add_argument("--verbose", "-v", action="store_true", help="verbose output")
 
-	subparsers = parser.add_subparsers()
+    subparsers = parser.add_subparsers()
 
-	sub_parser = subparsers.add_parser("action", help="")
-	sub_parser.set_defaults(func=function_name)
+    sub_parser = subparsers.add_parser("action", help="")
+    sub_parser.set_defaults(func=function_name)
 
-	argv = parser.parse_args()
-	if argv.verbose:
-		logger.setLevel(logging.DEBUG)
-	return argv
+    argv = parser.parse_args()
+    if argv.verbose:
+        logger.setLevel(logging.DEBUG)
+    return argv
 
 
 def main():
-	argv = parse_args()
-	kv = vars(argv)
+    argv = parse_args()
+    kv = vars(argv)
     {}
 
-	try:
-		repo = get_repo()
-		resp = argv.func(repo, **vars(argv))
-		print(resp)
-	except Exception as ex:
-		print(ex)
+    try:
+        repo = get_repo()
+        resp = argv.func(repo, **vars(argv))
+        print(resp)
+    except Exception as ex:
+        print(ex)
 
 
 if __name__ == '__main__':
-	main()
-]], 
+    main()
+]],
         i(0))
     ),
 
     -- misc
-    s( { trig = "borg", dscr = "borg pattern" }, 
+    s( { trig = "borg", dscr = "borg pattern" },
         t{
             'class Borg:',
-            '	_shared_state = {}',
+            '   _shared_state = {}',
             '',
-            '	def __init__(self):',
-            '		self.__dict__ = self._shared_state',
+            '   def __init__(self):',
+            '       self.__dict__ = self._shared_state',
             ''
         }
     )

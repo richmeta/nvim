@@ -66,7 +66,7 @@ xnoremap("<C-A>", "<C-C>ggVG")
 nnoremap("<Leader>tt", ":tabnew<cr>")
 
 -- \td = duplicate tab
-nnoremap("<Leader>tt", ":tab split<cr>")
+nnoremap("<Leader>td", ":tab split<cr>")
 
 -- \T = new scratch
 nnoremap("<Leader>T", ":tabnew<bar>setlocal buftype=nofile<cr>")
@@ -183,7 +183,9 @@ nnoremap("<Leader>=", "o<Esc>80a=<Esc>")
 nnoremap("<Leader>h", ":new<cr>")
 
 -- \rm = Remove file + confirm
-nnoremap("<Leader>rm", ':!rm -i "%"<cr>')
+nnoremap("<Leader>rm", function()
+    file.delete("%")
+end)
 
 -- \pw = Pwd
 nnoremap("<Leader>pw", ":pwd<cr>")
@@ -332,17 +334,21 @@ nmap("<c-l>", util.ex("wincmd l"), silent)
 -- \cv = copy filename only (and "f)
 -- \cs = copy stem (and "f)
 nmap("<Leader>cd", function()
-    file.clip({ typ = "dir" }, 1)
-end, silent) -- directory
+    file.clip({ typ = "dir", showmsg = true })
+end, silent)
+
 nmap("<Leader>cf", function()
-    file.clip({ typ = "full" }, 1)
-end, silent) -- full path
+    file.clip({ typ = "full", showmsg = true })
+end, silent)
+
 nmap("<Leader>cv", function()
-    file.clip({ typ = "filename" }, 1)
-end, silent) -- filename only
+    -- filename only
+    file.clip({ typ = "filename", showmsg = true })
+end, silent)
+
 nmap("<Leader>cs", function()
-    file.clip({ typ = "stem" }, 1)
-end, silent) -- stem only
+    file.clip({ typ = "stem", showmsg = true })
+end, silent)
 
 -- <ctrl-c><ctrl-d> (ins) = insert directory/path
 -- <ctrl-c><ctrl-f> (ins) = insert fullpath

@@ -81,6 +81,16 @@ function M.exists(filename)
     return p1:exists()
 end
 
+function M.delete(filename)
+    local p1 = Path:new(util.expand(filename))  -- expand ~ or %:p patterns
+    vim.ui.input({ prompt = string.format("remove file '%s'? ", p1)}, function(value)
+        if string.lower(value) == "y" then
+            p1:rm()
+            vim.notify("deleted", vim.log.levels.INFO)
+        end
+    end)
+end
+
 function M.clip(opts)
     -- opts = {
     --     path = optional, use expand or typ

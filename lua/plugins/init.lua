@@ -24,7 +24,7 @@ local plugins = {
     { "ThePrimeagen/harpoon" },
 
     -- git
-    { "TimUntersberger/neogit", opts = {} },
+    { "TimUntersberger/neogit", opts = {} },                    -- yes
     { "sindrets/diffview.nvim", opts = {} },
 
     -- commenting

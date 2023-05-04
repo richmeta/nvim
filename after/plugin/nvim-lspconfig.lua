@@ -92,7 +92,7 @@ local function on_attach(client, bufnr)
         mp.nmap_b("<leader>rn", vim.lsp.buf.rename)
     end
 
-    if client.supports_method("textDocument/codeAction") then
+    if client.supports_method("textDocument/codeLens") then
         -- \ca = run code action (lsp)
         mp.nmap_b("<leader>ca", function()
             vim.lsp.codelens.run()
@@ -110,7 +110,7 @@ local function on_attach(client, bufnr)
 
     if client.supports_method("textDocument/signatureHelp") then
         -- ctrl-k = signature help (lsp)
-        mp.nmap_b("<c-k>", vim.lsp.buf.signature_help)
+        mp.nmap_b("<Leader>sh", vim.lsp.buf.signature_help)
     end
 
     if client.supports_method("textDocument/rangeFormatting") then

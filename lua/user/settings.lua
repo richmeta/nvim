@@ -49,7 +49,7 @@ opt.listchars = {
     precedes = "❮",
     nbsp = "⍽",
     conceal = "~",
-    eol = "$" 
+    eol = "$"
 }
 o.splitbelow = true
 o.joinspaces = false
@@ -66,7 +66,6 @@ o.mouse = "a"
 o.selection = "inclusive"
 o.dictionary = los.nvim_config_dir .. "/dict/dict.txt"
 o.pastetoggle = "<Leader>ps"
-o.colorscheme = "iceberg"
 o.autoread = false
 opt.diffopt:append("algorithm:patience")
 
@@ -78,6 +77,7 @@ end
 vim.env.BASH_ENV = '~/.bash_aliases'
 
 vim.cmd.filetype("plugin indent on")
+vim.cmd.colorscheme("iceberg")
 
 if los.is_gui then
     -- enables <M-x> mappings

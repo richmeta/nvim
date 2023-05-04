@@ -71,13 +71,13 @@ mp.nmap_b("<Leader>rm", "rm")
 mp.nmap_b("ne", [[:e %/]])
 
 -- v = vertical split (dirvish)
-mp.nmap_b("v", "a")
+mp.nmap_b("v", "a", { remap = true})
 
 -- s = horiz split (dirvish)
-mp.nmap_b("s", "o")
+mp.nmap_b("s", "o", { remap = true})
 
 -- ctrl-t = open in tab (dirvish)
-mp.nmap_b("<C-T>", "t")
+mp.nmap_b("<C-T>", "t", { remap = true})
 
 -- open file under cursor in new tab (dirvish)
 mp.nnoremap_b("t", ":call dirvish#open('tabedit', 0)<cr>", silent)
@@ -103,7 +103,7 @@ mp.nmap_b("h", "<Plug>(dirvish_up)", silent)
 -- copypath
 mp.nmap_b("<Leader>cd", function()
     file.clip({ typ = "dir" })
-end, 
+end,
 silent)
 
 mp.nmap_b("<Leader>cf", function()

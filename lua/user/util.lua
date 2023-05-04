@@ -1,9 +1,9 @@
 local M = {}
 
 -- nice reloading of modules
-local ok, plenary_reload = pcall(require, "plenary.reload")
+local plenary_ok, plenary_reload = pcall(require, "plenary.reload")
 local reloader = require
-if ok then
+if plenary_ok then
   reloader = plenary_reload.reload_module
 end
 
@@ -62,16 +62,28 @@ function M.expand(arg)
     return value
 end
 
+-- catch vim error code and print message
+function M.safe_call(func, ...)
+    local ok, res = pcall(func, ...)
+    if ok then
+        return res
+    else
+        vim.notify(res, vim.log.levels.ERROR)
+        return nil
+    end
+end
+
+
 function M.ex(cmdline, immediate)
     -- run an excommand
     -- cmdline can be a single or table of cmds
     local run =
         function()
             if type(cmdline) == "string" then
-                vim.api.nvim_command(cmdline)
+                M.safe_call(vim.api.nvim_command, cmdline)
             elseif type(cmdline) == "table" then
                 for _, cmd in ipairs(cmdline) do
-                    vim.api.nvim_command(cmd)
+                    M.safe_call(vim.api.nvim_command, cmd)
                 end
             end
         end

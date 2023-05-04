@@ -42,6 +42,7 @@ local function bind(op, outer_opts)
     return function(lhs, rhs, opts)
         opts = vim.tbl_extend("force", outer_opts or {}, opts or {})
 
+        -- translate terminal fn keys
         if not los.is_gui and string.match(lhs, "<[SC]%-F%d+>") ~= nil then
             lhs = fn_mapping_term[lhs:upper()]
         end
