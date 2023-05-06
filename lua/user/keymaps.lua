@@ -42,13 +42,10 @@ cmap("<C-V>", "<C-R>+")
 -- ctrl-q = blockwise visual select
 noremap("<C-Q>", "<C-V>")
 
-if los.is_unix then
-    -- TODO: what happens on windows ( is it automatic ? )
-    local paste_i = "<C-g>u" .. vim.g["paste#paste_cmd"]["i"]
-    local paste_v = vim.g["paste#paste_cmd"]["v"]
-    inoremap("<C-V>", paste_i, { script = true })
-    vnoremap("<C-V>", paste_v, { script = true })
-end
+local paste_i = "<C-g>u" .. vim.g["paste#paste_cmd"]["i"]
+local paste_v = vim.g["paste#paste_cmd"]["v"]
+inoremap("<C-V>", paste_i, { script = true })
+vnoremap("<C-V>", paste_v, { script = true })
 
 -- Use CTRL-S for saving, also in Insert mode (<C-O> doesn't work well when using completions).
 -- ctrl-s = save
@@ -323,10 +320,7 @@ cnoremap("<m-p>", '<C-R><C-R>"')
 -- ctrl-j = move to window
 -- ctrl-h = move to window
 -- ctrl-l = move to window
-nmap("<c-k>", util.ex("wincmd k"), silent)
-nmap("<c-j>", util.ex("wincmd j"), silent)
-nmap("<c-h>", util.ex("wincmd h"), silent)
-nmap("<c-l>", util.ex("wincmd l"), silent)
+-- under tmux-navigator
 
 -- copypath
 -- \cd = copy directory/path (and "f)

@@ -62,6 +62,9 @@ local plugins = {
     -- markdown
     { "preservim/vim-markdown" },
 
+    -- tmux
+    { "christoomey/vim-tmux-navigator" },
+
 }
 
 -- load any local plugins, from user/localplugins.lua

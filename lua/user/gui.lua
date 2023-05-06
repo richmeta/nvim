@@ -3,12 +3,15 @@ if not los.is_gui then
     return
 end
 
-if los.is_mac then
-    vim.o.guifont = "Droid Sans Mono for Powerline:h14"
-elseif los.is_unix then
-    vim.o.guifont = "DroidSansMono Nerd Font:h10"
-else
-    vim.o.guifont = [[Consolas\ 10]]
+-- support different fonts
+local ok, _ = require('user.font')
+if not ok then
+    -- defaults
+    if los.is_mac then
+        vim.o.guifont = "Droid Sans Mono for Powerline:h14"
+    else
+        vim.o.guifont = "DroidSansMono Nerd Font:h10"
+    end
 end
 
 local function font_size(incr)
