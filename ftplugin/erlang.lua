@@ -56,10 +56,10 @@ end)
 
 -- Ctrl \] = goto tag (overrides global for vim_erlang_tags)
 if vim.fn["vim_erlang_tags#VimErlangTagsSelect"] then
-    mp.nnoremap_b("<Leader><C-]>", function() 
+    mp.nnoremap_b("<Leader><C-]>", function()
         vim.fn["vim_erlang_tags#VimErlangTagsSelect"](1)
         local keys = vim.api.nvim_replace_termcodes('<c-]><C-w>T',true,false,true)
-        vim.api.nvim_feedkeys(keys,'m',false) 
+        vim.api.nvim_feedkeys(keys,'m',false)
     end)
 end
 

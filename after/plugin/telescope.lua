@@ -1,5 +1,4 @@
 local util = require("user.util")
-local table = require("table")
 local los = require("user.os")
 local grep = require("user.grep")
 
@@ -91,3 +90,6 @@ nnoremap("<leader>lg", function()
         ftype = vim.g.grep_filetype,
     })
 end)
+
+-- \gt = last telescope picker
+nnoremap("<leader>gt", ts_builtin.resume)

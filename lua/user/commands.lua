@@ -124,3 +124,37 @@ vim.api.nvim_create_user_command(
         nargs = "+"
     }
 )
+
+-- ClipStart
+-- capture values from clipboard (when changes)
+local capture_clip_timer = nil
+vim.api.nvim_create_user_command(
+    'ClipStart',
+    function()
+        capture_clip_timer  = vim.loop.new_timer()
+        local clipvalue = ""
+        capture_clip_timer:start(1000, 1000, vim.schedule_wrap(function()
+            local current = vim.fn.getreg("+")
+            if current ~= clipvalue then
+                clipvalue = current
+                vim.api.nvim_buf_set_lines(0, -1, -1, true, { clipvalue })
+            end
+        end))
+    end,
+    {
+    }
+)
+
+-- ClipStop
+vim.api.nvim_create_user_command(
+    'ClipStop',
+    function()
+        if capture_clip_timer ~= nil then
+            capture_clip_timer:close()
+            capture_clip_timer = nil
+        end
+    end,
+    {
+    }
+)
+

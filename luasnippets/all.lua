@@ -18,7 +18,7 @@ return {
 
     s( { trig = "todo", name = "insert todo" },
         fmt("{} TODO: ", {
-            f(function() 
+            f(function()
                 -- get current comment prefix
                 local cs = vim.opt_local.commentstring:get()
                 local pos = string.find(cs, "%%s")
@@ -29,7 +29,7 @@ return {
     ),
 
     s( { trig = "uuid", name = "Generate UUID" },
-        f(function() 
+        f(function()
             return uuid()
         end, {})
     ),
@@ -74,6 +74,23 @@ return {
             -- ! formats as UTC
             return os.date("!%Y-%m-%dT%H:%M:%SZ", os.time())
         end, {})
+    ),
+
+    s( { trig = "epoch", desc = "convert from epoch timestamp" },
+        f(function(_, snip)
+            local selection = snip.env.LS_SELECT_RAW
+            if #selection == 1 then
+                local epoch = selection[1]
+                if #epoch > 10 then
+                    epoch = tonumber(epoch) / 1000  -- ms timestamp
+                else
+                    epoch = tonumber(epoch)
+                end
+                return os.date("%Y-%m-%dT%H:%M:%S", epoch)
+            else
+                return selection
+            end
+          end, {})
     ),
 
 
