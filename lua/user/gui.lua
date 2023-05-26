@@ -4,7 +4,7 @@ if not los.is_gui then
 end
 
 -- support different fonts
-local ok, _ = require('user.font')
+local ok, _ = pcall(require, "user.font")
 if not ok then
     -- defaults
     if los.is_mac then
