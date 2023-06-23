@@ -26,6 +26,7 @@ local plugins = {
     -- git
     { "TimUntersberger/neogit", opts = {} },                    -- yes
     { "sindrets/diffview.nvim", opts = {} },
+    -- { "bobrown101/git-blame.nvim" },                         -- TODO: not working very well
 
     -- commenting
     { "numToStr/Comment.nvim", opts = {} },

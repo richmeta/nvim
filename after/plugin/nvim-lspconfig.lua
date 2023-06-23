@@ -222,4 +222,5 @@ end
 mp.nnoremap("<F5>", toggle_diagnostics)
 mp.inoremap("<F5>", toggle_diagnostics)
 
-
+-- lsp uses tagfunc = vim.lsp.tagfunc
+vim.o.tags = ""

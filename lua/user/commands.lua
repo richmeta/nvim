@@ -128,33 +128,51 @@ vim.api.nvim_create_user_command(
 -- ClipStart
 -- capture values from clipboard (when changes)
 local capture_clip_timer = nil
-vim.api.nvim_create_user_command(
-    'ClipStart',
-    function()
-        capture_clip_timer  = vim.loop.new_timer()
-        local clipvalue = ""
-        capture_clip_timer:start(1000, 1000, vim.schedule_wrap(function()
+local capture_paused = false
+
+local function clip_stop()
+    if capture_clip_timer ~= nil then
+        capture_clip_timer:close()
+        capture_clip_timer = nil
+    end
+end
+
+local function clip_start()
+    local bid = vim.api.nvim_get_current_buf()
+    -- autocmd to close
+    vim.api.nvim_create_autocmd({"BufDelete"}, {
+        buffer = bid,
+        callback = function()
+            clip_stop()
+        end
+    })
+
+    vim.api.nvim_create_autocmd({"BufLeave"}, {
+        buffer = bid,
+        callback = function()
+            capture_paused = true
+        end
+    })
+
+    vim.api.nvim_create_autocmd({"BufEnter"}, {
+        buffer = bid,
+        callback = function()
+            capture_paused = false
+        end
+    })
+
+    capture_clip_timer  = vim.loop.new_timer()
+    local clipvalue = ""
+    capture_clip_timer:start(1000, 1000, vim.schedule_wrap(function()
+        if capture_paused == false then
             local current = vim.fn.getreg("+")
             if current ~= clipvalue then
                 clipvalue = current
-                vim.api.nvim_buf_set_lines(0, -1, -1, true, { clipvalue })
+                vim.api.nvim_buf_set_lines(bid, -1, -1, true, { clipvalue })
             end
-        end))
-    end,
-    {
-    }
-)
-
--- ClipStop
-vim.api.nvim_create_user_command(
-    'ClipStop',
-    function()
-        if capture_clip_timer ~= nil then
-            capture_clip_timer:close()
-            capture_clip_timer = nil
         end
-    end,
-    {
-    }
-)
+    end))
+end
 
+vim.api.nvim_create_user_command('ClipStart', clip_start, {})
+vim.api.nvim_create_user_command('ClipStop', clip_stop, {})

@@ -519,6 +519,7 @@ if los.is_mac then
     -- support Cmd+C/V
     map("<D-v>", "<C-v>", { remap = true } )
     imap("<D-v>", "<C-v>", { remap = true } )
+    cmap("<D-v>", "<C-v>", { remap = true } )
     map("<D-c>", "<C-c>", { remap = true } )
     imap("<D-c>", "<C-c>", { remap = true } )
 end
