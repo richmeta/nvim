@@ -1,5 +1,5 @@
 return {
-    "TimUntersberger/neogit",
+    "NeogitOrg/neogit",
 
     opts = {
         integrations = {
@@ -8,5 +8,6 @@ return {
     },
     dependencies = {
         "sindrets/diffview.nvim",
+        "nvim-lua/plenary.nvim"
     }
 }

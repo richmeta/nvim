@@ -102,7 +102,6 @@ local function on_attach(client, bufnr)
             group = group,
             pattern = "<buffer>",
             callback = function()
-                -- util.debug("refresh codelens")
                 vim.lsp.codelens.refresh()
             end,
         })
@@ -141,6 +140,28 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 lsp.pyright.setup({
     capabilities = capabilities,
     on_attach = on_attach,
+})
+
+lsp.rust_analyzer.setup({
+    on_attach = on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            imports = {
+                granularity = {
+                    group = "module",
+                },
+                prefix = "self",
+            },
+            cargo = {
+                buildScripts = {
+                    enable = true,
+                },
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
 })
 
 lsp.erlangls.setup({

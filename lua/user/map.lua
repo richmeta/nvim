@@ -31,7 +31,6 @@ local fn_mapping_term = {
 -- returns the correct terminal mapping key for Ctrl/Shift Fn mappings
 function M.fn_term(mapping)
     if not los.is_gui and string.match(mapping, "<[SCsc]%-[Ff]%d+>") ~= nil then
-        -- util.debug("replace mapping", mapping, ", with", fn_mapping_term[mapping:upper()])
         return fn_mapping_term[mapping:upper()]
     end
     return mapping

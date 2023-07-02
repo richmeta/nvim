@@ -2,10 +2,11 @@ return {
     "williamboman/mason-lspconfig.nvim",
 
     opts = {
-        ensure_installed = { 
-            "lua_ls", 
+        ensure_installed = {
+            "lua_ls",
             "pyright",
-            -- "erlangls", 
+            "rust_analyzer",
+            -- "erlangls",
             "tsserver",
             -- "docker_compose_language_service"
         }

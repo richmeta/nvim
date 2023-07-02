@@ -34,7 +34,6 @@ mp.nnoremap("<Leader>cg", function()
     local gitcli = require("neogit.lib.git.cli")
     local gitdir = gitcli.git_root()
 
-    util.debug("gitdir = ", gitdir)
     if gitdir then
         local p1 = Path:new(buffer.full())
         p1:make_relative(gitdir)

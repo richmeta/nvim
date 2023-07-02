@@ -73,8 +73,6 @@ local function grep_opts(opts)
         ret.search = search
     end
 
-    -- util.debug(vim.inspect(ret))
-
     return ret
 end
 

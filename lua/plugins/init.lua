@@ -24,7 +24,7 @@ local plugins = {
     { "ThePrimeagen/harpoon" },
 
     -- git
-    { "TimUntersberger/neogit", opts = {} },                    -- yes
+    { "NeogitOrg/neogit", opts = {} },                          -- yes
     { "sindrets/diffview.nvim", opts = {} },
     -- { "bobrown101/git-blame.nvim" },                         -- TODO: not working very well
 
