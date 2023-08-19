@@ -13,12 +13,7 @@ end
 return {
     "L3MON4D3/LuaSnip",
 
-    -- must be loaded before nvim-cmp
-    -- for key mappings
-    lazy = false,
-
     config = function()
-        -- module level
         local ls = require("luasnip")
 
         ls.config.setup({

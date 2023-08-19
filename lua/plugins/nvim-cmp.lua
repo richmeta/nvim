@@ -1,5 +1,4 @@
 local cmp = require("cmp")
-local ls = require("luasnip")
 
 local function has_words_before()
     unpack = unpack or table.unpack
@@ -16,6 +15,7 @@ return {
         },
         snippet = {
             expand = function(args)
+                local ls = require("luasnip")
                 ls.lsp_expand(args.body)
             end,
         },
@@ -31,6 +31,7 @@ return {
             ["<cr>"] = cmp.mapping.confirm({ select = false }),
 
             ["<Tab>"] = cmp.mapping(function(fallback)
+                local ls = require("luasnip")
                 if ls.expand_or_jumpable() then
                     ls.expand_or_jump()
                 elseif cmp.visible() then
@@ -43,6 +44,7 @@ return {
             end, { "i", "s" }),
 
             ["<S-Tab>"] = cmp.mapping(function(fallback)
+                local ls = require("luasnip")
                     if ls.jumpable(-1) then
                         ls.jump(-1)
                     elseif cmp.visible() then
@@ -53,6 +55,7 @@ return {
             end, { "i", "s" }),
 
             ["<C-j>"] = cmp.mapping(function(fallback)
+                local ls = require("luasnip")
                 if ls.choice_active() then
                     ls.change_choice(1)
                 else
