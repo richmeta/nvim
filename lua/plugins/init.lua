@@ -21,7 +21,7 @@ local plugins = {
     { "ray-x/lsp_signature.nvim" },                             -- yes
 
     -- TODO: configure
-    { "ThePrimeagen/harpoon" },
+    -- { "ThePrimeagen/harpoon" },
 
     -- git
     { "NeogitOrg/neogit", opts = {} },                          -- yes
@@ -40,9 +40,6 @@ local plugins = {
 
     -- status line
     { "nvim-lualine/lualine.nvim" },                            -- yes
-
-    -- navigation
-    { "ggandor/leap.nvim" },                                    -- yes
 
     -- edits
     { "kylechui/nvim-surround", opts = {} },
