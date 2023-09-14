@@ -6,10 +6,7 @@ local grep = require("user.grep")
 local ts_builtin = require("telescope.builtin")
 local mp = require("user.map")
 local file = require("user.file")
-
 local nnoremap = mp.nnoremap
-
-
 
 --
 -- MAPPINGS
@@ -23,8 +20,8 @@ nnoremap("<Leader>z", function()
     ts_builtin.buffers({ show_all_buffers = true })
 end)
 
--- Alt-p = mru files (cwd)
-nnoremap("<m-p>", function()
+-- \pp = files (cwd)
+nnoremap("<leader>pp", function()
     local dir
     if vim.o.filetype == "dirvish" then
         dir = util.expand("%")
