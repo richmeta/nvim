@@ -24,3 +24,8 @@ vim.b.switch_custom_definitions =
 
 -- \dp = remove pdb
 mp.nnoremap("<Leader>dp", [[:%g/set_trace\(\)/d<cr>]], mp.buffer)
+
+if vim.fn.executable('black') then
+    mp.nnoremap("<Leader>pf", ":%!black -q - <cr><cr>")
+    mp.vnoremap("<Leader>pf", ":!black -q - <cr><cr>")
+end

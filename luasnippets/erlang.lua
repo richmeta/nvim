@@ -364,6 +364,10 @@ end]], {
         u.snip_tmpl("erlang", "application", module_node(), { delimiters = "£" })
     ),
 
+    s( { trig = "proplist", dscr = "proplists:proplist()" },
+        t'proplists:proplist()'
+    ),
+
 
 }
 

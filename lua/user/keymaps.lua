@@ -111,13 +111,13 @@ if executable("python3") then
         ":!python3 -c 'import sys,json;print(json.dumps(json.loads(sys.stdin.read()),sort_keys=False,indent=4))' - <cr><cr>"
     )
 
-    -- \pf = format pprint
+    -- \pF = format pprint
     nnoremap(
-        "<Leader>pf",
+        "<Leader>pF",
         ":silent %!python3 -c 'import sys, pprint; pprint.PrettyPrinter(indent=2, compact=True).pprint(eval(sys.stdin.read()))' - <cr><cr>"
     )
     vnoremap(
-        "<Leader>pf",
+        "<Leader>pF",
         ":!python3 -c 'import sys, pprint; pprint.PrettyPrinter(indent=2).pprint(eval(sys.stdin.read()))' - <cr><cr>"
     )
 end
