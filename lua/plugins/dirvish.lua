@@ -14,11 +14,11 @@ return {
 
         -- g<F4> = dirvish git root dir
         { "g<F4>", function()
-            -- local gitcli = require("neogit.lib.git.cli")
-            -- local gitdir = gitcli.git_root()
             local gitdir = git.root()
-            local cmd = string.format("tabedit +Dirvish %s", gitdir)
-            vim.cmd(cmd)
+            if gitdir then
+                local cmd = string.format("Dirvish %s", gitdir)
+                vim.cmd(cmd)
+            end
         end, mode = "n" },
 
         -- Shift-<F4> = vsplit + dirvish current dir
@@ -31,7 +31,10 @@ return {
 
         -- <Ctrl-F4> = dirvish git root dir (newtab)
         { fn("<C-F4>"), function()
-            vim.cmd(string.format("tabedit +Dirvish %s", git.root()))
+            local gitdir = git.root()
+            if gitdir then
+                vim.cmd(string.format("tabedit +Dirvish %s", gitdir))
+            end
           end, mode = "n" }
     }
 }

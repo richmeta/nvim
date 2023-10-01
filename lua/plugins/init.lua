@@ -24,9 +24,7 @@ local plugins = {
     -- { "ThePrimeagen/harpoon" },
 
     -- git
-    { "NeogitOrg/neogit", opts = {} },                          -- yes
-    { "sindrets/diffview.nvim", opts = {} },
-    -- { "bobrown101/git-blame.nvim" },                         -- TODO: not working very well
+    { "tpope/vim-fugitive" },                                   -- yes
 
     -- commenting
     { "numToStr/Comment.nvim", opts = {} },
