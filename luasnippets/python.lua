@@ -114,7 +114,7 @@ else:
 
     s( { trig = "try", dscr = "try catch/finally" }, fmt(
 [[try:
-    {}
+    {}{}
 except {} as {}:
     {}
 finally:
@@ -122,6 +122,7 @@ finally:
 ]],
         {
             u.visual(1),
+            i(0),
             i(2, "Exception"),
             i(3, "ex"),
             i(4, "pass"),

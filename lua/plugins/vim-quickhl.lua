@@ -21,10 +21,9 @@ return {
         -- \kq = prompt for what to select
         {"<Leader>kq", ":QuickhlManualAdd<space>", mode = "n", noremap = true},
 
-        -- alt-m = next mark
-        -- alt-M = prev mark
-        -- TODO: a-n or a-N doesn't work in neovide
-        {"<a-m>", "<Plug>(quickhl-manual-go-to-next)", mode = "n", noremap = true},
-        {"<a-M>", "<Plug>(quickhl-manual-go-to-prev)", mode = "n", noremap = true}
+        -- alt-n = next mark
+        -- alt-N = prev mark
+        {"<a-n>", "<Plug>(quickhl-manual-go-to-next)", mode = "n", noremap = true},
+        {"<a-N>", "<Plug>(quickhl-manual-go-to-prev)", mode = "n", noremap = true},
     }
 }

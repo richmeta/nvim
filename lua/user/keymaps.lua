@@ -72,7 +72,7 @@ nnoremap("<Leader>T", ":tabnew<bar>setlocal buftype=nofile<cr>")
 nnoremap("<Leader>tc", ":tabclose<cr>")
 
 -- \to = only this tab
-nnoremap("<Leader>O", ":tabonly<cr>")
+nnoremap("<Leader>to", ":tabonly<cr>")
 
 -- \o = tabedit file
 nnoremap("<Leader>o", ":tabedit<space>")
