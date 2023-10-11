@@ -529,3 +529,13 @@ nnoremap("<leader>no", function()
     local cmd = string.format("Nopen %s", vim.bo.filetype)
     util.execute(cmd)
 end)
+
+-- \ne = new buffer
+nnoremap("<leader>ne", ":enew<cr>")
+
+-- \nv = new buffer vertical
+nnoremap("<leader>nv", ":vnew<cr>")
+
+-- \ns = new buffer split
+nnoremap("<leader>ns", ":new<cr>")
+

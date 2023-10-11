@@ -16,7 +16,8 @@ function M.relative_from_buffer()
     if dir == "" then
         return vim.fn.expand("%")
     end
-    return vim.fn["FugitivePath"]("%")
+    local fugitive_path = vim.fn["FugitivePath"]
+    return fugitive_path(vim.fn.getreg("%"), "")
 end
 
 function M.branch()

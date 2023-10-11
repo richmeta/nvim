@@ -9,7 +9,7 @@ local ts_builtin = require("telescope.builtin")
 vim.api.nvim_create_user_command(
     'W',
     function()
-        vim.fn.echo("Password: ")
+        print("Password: ")
         vim.fn.execute("write !sudo tee % >/dev/null")
         vim.fn.execute("silent! edit!")
     end,
