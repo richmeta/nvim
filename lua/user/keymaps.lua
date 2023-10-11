@@ -539,3 +539,9 @@ nnoremap("<leader>nv", ":vnew<cr>")
 -- \ns = new buffer split
 nnoremap("<leader>ns", ":new<cr>")
 
+-- resize windows
+nnoremap("<S-Up>", "<cmd>resize +2<CR>")
+nnoremap("<S-Down>", "<cmd>resize -2<CR>")
+nnoremap("<S-Left>", "<cmd>vertical resize -2<CR>")
+nnoremap("<S-Right>", "<cmd>vertical resize +2<CR>")
+

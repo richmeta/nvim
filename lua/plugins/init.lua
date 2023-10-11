@@ -47,6 +47,9 @@ local plugins = {
     -- erlang
     { "vim-erlang/vim-erlang-tags", ft = "erlang" },
 
+    -- python
+    { "Vimjas/vim-python-pep8-indent", ft = "python" },
+
     -- terminal
     { "akinsho/toggleterm.nvim" },                              -- yes
 
