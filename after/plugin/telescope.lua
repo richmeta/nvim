@@ -12,6 +12,8 @@ local nnoremap = mp.nnoremap
 -- MAPPINGS
 --
 
+-- ctrl-q = send results to quick fix
+
 -- \f = mru files
 nnoremap("<Leader>f", ts_builtin.oldfiles)
 

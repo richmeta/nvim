@@ -545,3 +545,9 @@ nnoremap("<S-Down>", "<cmd>resize -2<CR>")
 nnoremap("<S-Left>", "<cmd>vertical resize -2<CR>")
 nnoremap("<S-Right>", "<cmd>vertical resize +2<CR>")
 
+-- quickfix
+nnoremap("[q", ":cprevious<cr>")
+nnoremap("]q", ":cnext<cr>")
+nnoremap("[Q", ":cfirst<cr>")
+nnoremap("]Q", ":clast<cr>")
+
