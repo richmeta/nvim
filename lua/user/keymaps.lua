@@ -137,6 +137,12 @@ elseif executable("erlfmt") then
     vnoremap("<Leader>ef", ":!erlfmt --print-width 120 - <cr><cr>")
 end
 
+if executable("black") then
+    -- \pf = format black
+    nnoremap("<Leader>pf", ":%!black -q - <cr><cr>")
+    vnoremap("<Leader>pf", ":!black -q - <cr><cr!")
+end
+
 -- shift-F1 - help current word
 nnoremap("<S-F1>", function()
     local cmd = "help " .. util.expand("<cword>")

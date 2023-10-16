@@ -11,6 +11,7 @@ return {
 				[ [[\(\w\+\)\(\s\+\w\+\s\+\)\(\w\+\)]] ] = [[\3\2\1]],
 			},
 			vim.fn["switch#NormalizedCase"]({ "true", "false" }),
+			vim.fn["switch#NormalizedCase"]({ "yes", "no" }),
 			vim.fn["switch#NormalizedCase"]({ "enabled", "disabled" }),
 		}
 	end,
