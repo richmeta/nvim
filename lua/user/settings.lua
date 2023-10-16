@@ -52,6 +52,7 @@ opt.listchars = {
     eol = "$"
 }
 o.splitbelow = true
+o.splitright = true
 o.joinspaces = false
 o.shada = "!,'1000,<50,s20,h"
 o.tags = "./tags,tags;"

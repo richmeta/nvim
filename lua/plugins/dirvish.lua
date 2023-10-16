@@ -29,8 +29,8 @@ return {
             vim.cmd(string.format("tabedit +Dirvish %s", vim.fn.expand('%', 'dir')))
         end, mode = "n" },
 
-        -- <Ctrl-F4> = dirvish git root dir (newtab)
-        { fn("<C-F4>"), function()
+        -- \g<F4> = dirvish git root dir (newtab)
+        { fn("<leader>g<F4>"), function()
             local gitdir = git.root()
             if gitdir then
                 vim.cmd(string.format("tabedit +Dirvish %s", gitdir))
