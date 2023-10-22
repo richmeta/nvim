@@ -36,21 +36,30 @@ local function var_list_expand_alias(var)
     elseif var == "MF" then
         return "?MODULE, ?FUNCTION_NAME", "~s:~s"
     else
-        return var, string.format("%s = ~p", var)
+        -- search for alias in form of var`alias
+        -- %a = upper/lower; %:, %_, %(, %) = literals, and quotes
+        local v1, alias = string.match(var, "([%a%:%_%(%)\"\']+)`(%w+)$")
+        if v1 then
+            return v1, string.format("%s = ~p", alias)
+        else
+            return var, string.format("%s = ~p", var)
+        end
     end
 end
 
 -- formatting var lists
--- eg: some message|A, B, C, nodes(),
+-- eg: some message|A`alias B C nodes(),
 --     ^            ^               ^
 --     preamble     spec            ending
 --
 -- return {
 --    preamble = "some message",
---    format = "A = ~p, B = ~p, C = ~p"
+--    format = "alias = ~p, B = ~p, C = ~p"
 --    vars = { A, B, C }
 --    ending = ","
 -- }
+--   TODO: handle function calls with multi args
+--         some:func(A, B) - breaks
 local function var_list_parse(input, opts)
     local pat_format = "%s*([^,%s]+)%s*,?"
     local preamble, rest = string.match(input, "(.-)|(.*)$")

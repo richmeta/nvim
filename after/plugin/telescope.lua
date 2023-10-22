@@ -12,17 +12,7 @@ local nnoremap = mp.nnoremap
 -- MAPPINGS
 --
 
--- ctrl-q = send results to quick fix
-
--- \f = mru files
-nnoremap("<Leader>f", ts_builtin.oldfiles)
-
--- \z = buffers
-nnoremap("<Leader>z", function()
-    ts_builtin.buffers({ show_all_buffers = true })
-end)
-
--- \pp = files (cwd)
+-- \pp = files in cwd (telescope)
 nnoremap("<leader>pp", function()
     local dir
     if vim.o.filetype == "dirvish" then
@@ -38,7 +28,7 @@ nnoremap("<leader>pp", function()
     end
 end)
 
--- \gr = cwd grep prompt
+-- \gr = cwd grep prompt (telescope)
 nnoremap("<leader>gr", function()
     grep.grep(ts_builtin.grep_string, {
         prompt = true,
@@ -48,7 +38,7 @@ nnoremap("<leader>gr", function()
     })
 end)
 
--- \br = buffer grep prompt
+-- \br = buffer grep prompt (telescope)
 nnoremap("<leader>br", function()
     grep.grep(ts_builtin.grep_string, {
         prompt = true,
@@ -62,7 +52,7 @@ end)
 -- TODO:
 -- grep visual selected
 
--- \gw = cwd grep current word
+-- \gw = cwd grep current word (telescope)
 nnoremap("<leader>gw", function()
     grep.grep(ts_builtin.grep_string, {
         word = vim.g.grep_word_boundary,
@@ -71,7 +61,7 @@ nnoremap("<leader>gw", function()
     })
 end)
 
--- \bw = buffer grep current word
+-- \bw = buffer grep current word (telescope)
 nnoremap("<leader>bw", function()
     grep.grep(ts_builtin.grep_string, {
         dir = "#",
@@ -81,7 +71,7 @@ nnoremap("<leader>bw", function()
     })
 end)
 
---  \lg = live grep
+--  \lg = live grep (telescope)
 nnoremap("<leader>lg", function()
     grep.grep(ts_builtin.live_grep, {
         word = vim.g.grep_word_boundary,
@@ -90,5 +80,5 @@ nnoremap("<leader>lg", function()
     })
 end)
 
--- \gt = last telescope picker
-nnoremap("<leader>gt", ts_builtin.resume)
+-- \R = last telescope picker
+nnoremap("<leader>R", ts_builtin.resume)

@@ -32,6 +32,7 @@ local plugins = {
     -- files, buffers
     { "justinmk/vim-dirvish" },                                 -- yes
     { "nvim-telescope/telescope.nvim" },                        -- yes
+    { 'nvim-telescope/telescope-ui-select.nvim' },
 
     -- highlighting
     { "t9md/vim-quickhl" },                                     -- yes

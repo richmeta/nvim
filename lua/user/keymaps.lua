@@ -182,9 +182,6 @@ nnoremap("<Leader>-", "o<Esc>80a-<Esc>")
 -- \= ruler
 nnoremap("<Leader>=", "o<Esc>80a=<Esc>")
 
--- \h = new horizontal split
-nnoremap("<Leader>h", ":new<cr>")
-
 -- \rm = Remove file + confirm
 nnoremap("<Leader>rm", function()
     file.delete("%")
