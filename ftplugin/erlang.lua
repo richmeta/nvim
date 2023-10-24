@@ -2,6 +2,7 @@ local mp = require("user.map")
 local util = require("user.util")
 local buffer = require("user.buffer")
 local clipboard = require("user.clip")
+local tg = require("user.toggler")
 
 -- buffer local variables
 -- iskeyword toggling ( see keymaps -> \kd )
@@ -41,11 +42,10 @@ vim.b.switch_custom_definitions = {
 }
 
 -- \kd = toggle ':' in iskeyword
-mp.toggle("<Leader>kd", {
+mp.nnoremap_b("<Leader>kd", tg.toggle({
     setting = "iskeyword",
     choices = { ":", "" },
-    map_opts = { buffer = true }
-})
+}))
 
 -- \kc = search for handle_cast/call/info/continue under cursor
 mp.nnoremap_b("<Leader>kc", function()

@@ -3,6 +3,7 @@ local util = require("user.util")
 local file = require("user.file")
 local buffer = require("user.buffer")
 local los = require("user.os")
+local tg = require("user.toggler")
 
 -- local setup
 local silent = { silent = true }
@@ -404,10 +405,10 @@ end)
 --
 
 -- F2 = toggle spell
-mp.toggle("<F2>", "spell")
+nnoremap("<F2>", tg.toggle("spell"))
 
 -- \ws = toggle wrapscan
-mp.toggle("<Leader>ws", "wrapscan")
+nnoremap("<Leader>ws", tg.toggle("wrapscan"))
 
 -- F6 = syntax on/off
 -- map <F6> :if exists("syntax_on") <bar> syntax off <bar> else <bar> syntax enable <bar> endif <cr>
@@ -421,25 +422,25 @@ nnoremap("<F6>", function()
 end)
 
 -- F7 = toggle hlsearch
-mp.toggle("<F7>", "hlsearch")
+nnoremap("<F7>", tg.toggle("hlsearch"))
 
 -- F8 = toggle wrap
-mp.toggle("<F8>", "wrap")
+nnoremap("<F8>", tg.toggle("wrap"))
 
 -- F9 = toggle list
-mp.toggle("<F9>", "list")
+nnoremap("<F9>", tg.toggle("list"))
 
 -- shift-F8 = toggle number
-mp.toggle("<S-F8>", "number")
+nnoremap("<S-F8>", tg.toggle("number"))
 
 -- shift-F9 = toggle relativenumber
-mp.toggle("<S-F9>", "relativenumber")
+nnoremap("<S-F9>", tg.toggle("relativenumber"))
 
 -- F10 = toggle scrollbind
-mp.toggle("<F10>", "scrollbind")
+nnoremap("<F10>", tg.toggle("scrollbind"))
 
 -- F11 = toggle ignorecase
-mp.toggle("<F11>", "ignorecase")
+nnoremap("<F11>", tg.toggle("ignorecase"))
 
 -- F12 = toggle quickfix
 nnoremap("<F12>", function()
@@ -452,26 +453,26 @@ nnoremap("<F12>", function()
 end)
 
 -- \ps = toggle paste
-mp.toggle("<Leader>ps", "paste")
+nnoremap("<Leader>ps", tg.toggle("paste"))
 
 -- \cc = toggle cursorcolumn
-mp.toggle("<Leader>cc", "cursorcolumn")
+nnoremap("<Leader>cc", tg.toggle("cursorcolumn"))
 
 -- \sl = toggle selection (exclusive/inclusive)
-mp.toggle("<Leader>sl", { setting = "selection", choices = { "inclusive", "exclusive" } })
+nnoremap("<Leader>sl", tg.toggle({ setting = "selection", choices = { "inclusive", "exclusive" } }))
 
 -- \ar = toggle autoread
-mp.toggle("<Leader>ar", "autoread")
+nnoremap("<Leader>ar", tg.toggle("autoread"))
 
 -- \kd = toggle '.' in `iskeyword`
 -- or vim.b.lang_dot to override
-mp.toggle("<Leader>kd", {
+nnoremap("<Leader>kd", tg.toggle({
     setting = "iskeyword",
     choices = function()
         local dot = vim.b.lang_dot or "."
         return { dot, "" }
     end,
-})
+}))
 
 nnoremap("<Leader><C-]>", function()
     local word = util.expand("<cWORD>")
