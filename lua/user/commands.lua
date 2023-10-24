@@ -106,12 +106,40 @@ vim.api.nvim_create_user_command(
             word = vim.g.grep_word_boundary,
             glob = vim.g.grep_glob,
             ftype = vim.g.grep_filetype,
+            regex = vim.g.grep_regex,
         })
     end,
     {
         nargs = 1
     }
 )
+
+-- GrepMode
+-- args can be any of
+--  regex=0|1
+--  boundary=0|1
+--  glob=<pattern> or empty
+--  filetype=<ft> or empty
+vim.api.nvim_create_user_command(
+    'GrepMode',
+    function(opts)
+        for k, v in string.gmatch(opts.args, "(%a+)=(%S*)") do
+            if k == "boundary" then
+                vim.g.grep_word_boundary = tonumber(v)
+            elseif k == "regex" then
+                vim.g.grep_regex = tonumber(v)
+            elseif k == "filetype" then
+                vim.g.grep_filetype = v
+            elseif k == "glob" then
+                vim.g.grep_glob = ""
+            end
+        end
+    end,
+    {
+        nargs = "+"
+    }
+)
+
 
 -- R - reload lua module
 vim.api.nvim_create_user_command(

@@ -385,22 +385,6 @@ map("<Leader>mt", [[:let $VIM_DIR=expand('%:p:h')<cr>:terminal<cr>cd $VIM_DIR<cr
 -- \dt = diffthis
 map("<Leader>dt", [[:if &diff <bar> diffoff <bar> else <bar> diffthis <bar>endif<cr>]])
 
--- TODO -
--- instead of these maps
--- setup a Command to set the various grep options
---    GrepRegexMode -  toggle regex mode
---    GrepBoundary  -  toggle boundary
---    GrepGlob      -  set glob
-
---    Grep grep prompt dir
-
--- \gW = toggle word boundary grep
--- grep runs from `after/plugin/telescope.lua`
-nnoremap("<leader>gW", function()
-    vim.g.grep_word_boundary = not vim.g.grep_word_boundary
-    vim.notify(tostring(vim.g.grep_word_boundary), vim.log.levels.INFO)
-end)
-
 -- \gT = toggle filetype on/off
 nnoremap("<leader>gT", function()
     if vim.g.grep_filetype == "" then
@@ -413,20 +397,6 @@ nnoremap("<leader>gT", function()
         vim.g.grep_filetype = ""
         vim.notify("off", vim.log.levels.INFO)
     end
-end)
-
--- \gG = set grep glob
-nnoremap("<leader>gG", function()
-    vim.ui.input({ prompt = "glob: ", completion = "file", default = "**/*." }, function(value)
-        -- use <esc> or blank to reset
-        if value then
-            vim.g.grep_glob = value
-            vim.notify(vim.g.grep_glob, vim.log.levels.INFO)
-        else
-            vim.g.grep_glob = ""
-            vim.notify("off", vim.log.levels.INFO)
-        end
-    end)
 end)
 
 --

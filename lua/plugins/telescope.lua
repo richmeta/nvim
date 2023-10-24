@@ -65,8 +65,6 @@ return {
                 }
             },
             extensions = {
-                -- TODO: try out this extension
-                -- https://github.com/cljoly/telescope-repo.nvim
                 ["ui-select"] = {
                     require("telescope.themes").get_cursor(),
                 },

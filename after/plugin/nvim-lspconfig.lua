@@ -225,9 +225,6 @@ lsp.lua_ls.setup({
     },
 })
 
--- TODO: maybe add to toggle
---  pass source for the setting
-
 -- Ctrl-F5 - toggle LSP errors
 local diagnostics_enabled = true
 local function toggle_diagnostics()

@@ -129,6 +129,7 @@ function M.toggle(mapping, arg)
     --
     --       'choices' : table or function()
     --          - table    : an array of choices to cycle over
+    --                       TODO: choice could be a function (eg diffthis)
     --                       list-style options are supported
     --                       use { ..., "" } to remove it from toggle list
     --
