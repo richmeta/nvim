@@ -1,4 +1,5 @@
 local M = {}
+local util = require("user.util")
 
 local function find_next_choice(current_value, choices)
     -- precondition: value must exist in choices
@@ -35,8 +36,9 @@ function M.toggle(arg)
     -- arg : string or table
     --   string : bool option
     --   table : {
-    --       'setting' : string     
-    --          - name of setting - if boolean on/off
+    --       'setting' : string or function()
+    --          - string  : name of setting - if boolean on/off
+    --          - function: return the current value
     --
     --       'choices' : table or function()
     --          - table    : an array of choices to cycle over
@@ -44,9 +46,11 @@ function M.toggle(arg)
     --                       use { ..., "" } to remove it from toggle list
     --
     --          - function : called before toggle, 
-    --                       must return either:
-    --                         - a table array of possible choices
-    --                         - the next value
+    --                       must return a table array of possible choices
+    --
+    --       'func'    : function(current_value)
+    --                   returns either the new value
+    --                   or nil, which makes no change
     --
     --   }
     local opts
@@ -59,21 +63,37 @@ function M.toggle(arg)
     end
 
     local setting = opts.setting
-    local info = vim.api.nvim_get_option_info(setting)
-    if info.type == "boolean" and not opts.choices then
+    local info_type = type(setting)
+    if info_type == "string" then
+        local info = vim.api.nvim_get_option_info(setting)
+        info_type = info.type
+    end
+
+    if info_type == "boolean" and not opts.choices then
         opts.choices = { true, false }
     end
-
-    if not opts.choices then
-        error(string.format("choices required for %s (%s)", setting, info.type))
+    if not opts.choices and not opts.func then
+        error(string.format("'choices' or 'func' required for %s (%s)", setting, info_type))
     end
 
-    local choices = type(opts.choices) == "function" and opts.choices() or opts.choices
-
     return function()
-        local current = vim.opt[setting]:get()
-        if vim.tbl_islist(current) then
-            -- list-style settings
+        local current
+        if type(setting) == "function" then
+            current = setting()
+        else
+            current = vim.opt[setting]:get()
+        end
+        if opts.func then
+            local next_value = opts.func(current)
+            if next_value ~= nil then
+                vim.opt[setting] = next_value
+                vim.notify(string.format("%s=%s", setting, next_value), vim.log.levels.INFO)
+            end
+            return
+        end
+
+        local choices = type(opts.choices) == "function" and opts.choices() or opts.choices
+        if vim.tbl_islist(current) then     -- list-style settings
 
             -- find the current item from choices
             local found = vim.tbl_filter(function(item)

@@ -384,21 +384,17 @@ tmap("<C-S>", "<Nop>")
 map("<Leader>mt", [[:let $VIM_DIR=expand('%:p:h')<cr>:terminal<cr>cd $VIM_DIR<cr>]])
 
 -- \dt = diffthis
-map("<Leader>dt", [[:if &diff <bar> diffoff <bar> else <bar> diffthis <bar>endif<cr>]])
-
--- \gT = toggle filetype on/off
-nnoremap("<leader>gT", function()
-    if vim.g.grep_filetype == "" then
-        local ft = vim.o.filetype
-        if ft and #ft > 0 then
-            vim.g.grep_filetype = ft
-            vim.notify(vim.g.grep_filetype, vim.log.levels.INFO)
+nnoremap("<Leader>dt", tg.toggle({
+    setting = "diff",
+    func = function(current)
+        if current == true then
+            vim.cmd.diffoff()
+        else
+            vim.cmd.diffthis()
         end
-    else
-        vim.g.grep_filetype = ""
-        vim.notify("off", vim.log.levels.INFO)
+        return nil
     end
-end)
+}))
 
 --
 -- map toggles
@@ -411,15 +407,18 @@ nnoremap("<F2>", tg.toggle("spell"))
 nnoremap("<Leader>ws", tg.toggle("wrapscan"))
 
 -- F6 = syntax on/off
--- map <F6> :if exists("syntax_on") <bar> syntax off <bar> else <bar> syntax enable <bar> endif <cr>
-nnoremap("<F6>", function()
-    local exists = vim.fn.exists("syntax_on")
-    if exists == 1 then
-        util.execute("syntax off")
-    else
-        util.execute("syntax enable")
+nnoremap("<F6>", tg.toggle({
+    setting = function()
+        return vim.fn.exists("syntax_on")
+    end,
+    func = function(current)
+        if current == 1 then
+            util.execute("syntax off")
+        else
+            util.execute("syntax enable")
+        end
     end
-end)
+}))
 
 -- F7 = toggle hlsearch
 nnoremap("<F7>", tg.toggle("hlsearch"))
@@ -443,14 +442,18 @@ nnoremap("<F10>", tg.toggle("scrollbind"))
 nnoremap("<F11>", tg.toggle("ignorecase"))
 
 -- F12 = toggle quickfix
-nnoremap("<F12>", function()
-    local ids = vim.fn.getqflist({ winid = 1 })
-    if ids.winid ~= 0 then
-        vim.cmd.cclose()
-    else
-        vim.cmd(":botright copen")
+nnoremap("<F12>", tg.toggle({
+    setting = function()
+        return vim.fn.getqflist({ winid = 1 })
+    end,
+    func = function(ids)
+        if ids.winid ~= 0 then
+            vim.cmd.cclose()
+        else
+            vim.cmd(":botright copen")
+        end
     end
-end)
+}))
 
 -- \ps = toggle paste
 nnoremap("<Leader>ps", tg.toggle("paste"))
