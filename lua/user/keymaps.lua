@@ -408,7 +408,7 @@ nnoremap("<F6>", tg.toggle({
     source = function()
         return vim.fn.exists("syntax_on") == 1
     end,
-    callback = function(syntax_on)
+    handler = function(syntax_on)
         util.debug("enabled = ", syntax_on)
         if syntax_on == true then
             util.execute("syntax off")

@@ -231,7 +231,7 @@ local toggle_diagnostics = tg.toggle({
     source = function()
         return vim.diagnostic.is_disabled()
     end,
-    callback = function(is_disabled)
+    handler = function(is_disabled)
         local buffer_id = buffer.id()
         if is_disabled then
             vim.diagnostic.enable(buffer_id)

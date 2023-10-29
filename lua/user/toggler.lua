@@ -1,5 +1,12 @@
 local M = {}
--- local util = require("user.util")
+
+-- TODO
+--  some lua tests
+--
+-- separate toggle from creating as mapping
+--   toggle - function
+--   map_toggle - mapping to create the toggle
+--
 
 local function get_vim_var(variable)
     local typ, name = string.match(variable, "([bg]):(%S+)")
@@ -43,26 +50,22 @@ local function find_next_choice(opts, current_value, choices)
 end
 
 local function set_next(opts, next_value)
-    if opts.callback then
-        opts.callback(next_value)
-    elseif opts.handler and next_value == opts.handler_ignore then
+    if opts.handler and next_value == opts.handler_ignore then
         return
     elseif opts.setting then
         vim.opt[opts.setting] = next_value
         vim.notify(string.format("%s=%s", opts.setting, next_value), vim.log.levels.INFO)
-    elseif type(opts.source) == "function" then
-        error("toggler: source based function but no callback")
     elseif type(opts.source) == "string" then
         set_vim_var(opts.source, next_value)
-    else
-        error("toggler: cannot set value on variable based sources")
+    end
+
+    if opts.callback then
+        opts.callback(next_value)
     end
 end
 
 local function set_list_next(opts, next_value, old_value)
-    if opts.callback then
-        opts.callback(next_value, old_value)
-    elseif opts.handler and next_value == opts.handler_ignore then
+    if opts.handler and next_value == opts.handler_ignore then
         return
     elseif opts.setting then
         if old_value then
@@ -72,8 +75,6 @@ local function set_list_next(opts, next_value, old_value)
             vim.opt[opts.setting]:append(next_value)
         end
         vim.notify(string.format("%s=%s", opts.setting, vim.o[opts.setting]), vim.log.levels.INFO)
-    elseif type(opts.source) == "function" then
-        error("toggler: source based function but no callback")
     elseif type(opts.source) == "string" then
         local tbl = get_vim_var(opts.source)
         if old_value then
@@ -88,19 +89,13 @@ local function set_list_next(opts, next_value, old_value)
             table.insert(tbl, next_value)
         end
         set_vim_var(opts.source, tbl)
-    else
-        error("toggler: cannot set value on variable based sources")
+    end
+
+    if opts.callback then
+        opts.callback(next_value, old_value)
     end
 end
 
-
--- TODO
---  some lua tests
---
--- separate toggle from creating as mapping
---   toggle - function
---   map_toggle - mapping to create the toggle
---
 function M.toggle(arg)
     -- create a toggle function that will
     -- toggle a setting over list of available values
@@ -126,16 +121,16 @@ function M.toggle(arg)
     --                       must return a table array of possible choices
     --
     --       'handler'    : function(current_value)
-    --                       returns either the next value
-    --                       or nil, which makes no change
+    --                       called before setting, must return the next value
+    --                       or `handler_ignore` to not continue 
+    --                       (useful when setting the value yourself)
     --
     --       'handler_ignore' : any, default = nil
     --                       don't set the value if handler returns this
     --
     --       'callback'   : function(next_value) for simple types
     --                      function(next_value, old_value) for tabluar types
-    --                       if set, instead of setting the next value
-    --                       call this function with the next value (and old_value for table types)
+    --                      called after setting
     --   }
     local opts
     if type(arg) == "string" then
@@ -149,13 +144,6 @@ function M.toggle(arg)
         end
     else
         error("wrong argument type to toggler. expecting string or table")
-    end
-
-    if opts.handler == nil and type(opts.source) == "function" and type(opts.source) == "function" then
-        -- always pass through
-        opts.handler = function(value)
-            return value
-        end
     end
 
     if not opts.choices then
