@@ -3,9 +3,9 @@ local los = require("user.os")
 local o   = vim.o       -- set: options
 local opt = vim.opt     -- lua api for options, lists etc
 
-if vim.loader then
-    vim.loader.enable()
-end
+-- if vim.loader then
+--     vim.loader.enable()
+-- end
 
 o.hidden = true
 o.backup = false

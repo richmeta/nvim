@@ -386,7 +386,7 @@ map("<Leader>mt", [[:let $VIM_DIR=expand('%:p:h')<cr>:terminal<cr>cd $VIM_DIR<cr
 -- \dt = diffthis
 nnoremap("<Leader>dt", tg.toggle({
     setting = "diff",
-    func = function(current)
+    handler = function(current)
         if current == true then
             vim.cmd.diffoff()
         else
@@ -408,11 +408,19 @@ nnoremap("<Leader>ws", tg.toggle("wrapscan"))
 
 -- F6 = syntax on/off
 nnoremap("<F6>", tg.toggle({
-    setting = function()
-        return vim.fn.exists("syntax_on")
+    source = function()
+        return vim.fn.exists("syntax_on") == 1
     end,
-    func = function(current)
-        if current == 1 then
+    -- handler = function(current)
+    --     if current == 1 then
+    --         util.execute("syntax off")
+    --     else
+    --         util.execute("syntax enable")
+    --     end
+    -- end,
+    callback = function(enabled)
+        util.debug("enabled = ", enabled)
+        if enabled == true then
             util.execute("syntax off")
         else
             util.execute("syntax enable")
@@ -446,7 +454,7 @@ nnoremap("<F12>", tg.toggle({
     setting = function()
         return vim.fn.getqflist({ winid = 1 })
     end,
-    func = function(ids)
+    handler = function(ids)
         if ids.winid ~= 0 then
             vim.cmd.cclose()
         else
@@ -462,7 +470,10 @@ nnoremap("<Leader>ps", tg.toggle("paste"))
 nnoremap("<Leader>cc", tg.toggle("cursorcolumn"))
 
 -- \sl = toggle selection (exclusive/inclusive)
-nnoremap("<Leader>sl", tg.toggle({ setting = "selection", choices = { "inclusive", "exclusive" } }))
+nnoremap("<Leader>sl", tg.toggle({
+    setting = "selection",
+    choices = { "inclusive", "exclusive" }
+}))
 
 -- \ar = toggle autoread
 nnoremap("<Leader>ar", tg.toggle("autoread"))
