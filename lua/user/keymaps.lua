@@ -230,9 +230,9 @@ nnoremap("<Leader>vso", function()
 end)
 
 -- \db = toggle show debug
-nnoremap("<leader>db", function()
-    vim.g.show_debug = not vim.g.show_debug
-end)
+nnoremap("<leader>db", tg.toggle({
+    source = "g:show_debug"
+}))
 
 -- \sb = shebang for bash
 nnoremap("<Leader>sb", ":normal 1GO<esc>I#!/usr/bin/env bash<cr><esc>")
@@ -387,12 +387,9 @@ map("<Leader>mt", [[:let $VIM_DIR=expand('%:p:h')<cr>:terminal<cr>cd $VIM_DIR<cr
 nnoremap("<Leader>dt", tg.toggle({
     setting = "diff",
     handler = function(current)
-        if current == true then
-            vim.cmd.diffoff()
-        else
-            vim.cmd.diffthis()
-        end
-        return nil
+        local cmd = current and "diffoff" or "diffthis"
+        vim.cmd[cmd]()
+        vim.notify(cmd, vim.log.levels.INFO)
     end
 }))
 
@@ -411,16 +408,9 @@ nnoremap("<F6>", tg.toggle({
     source = function()
         return vim.fn.exists("syntax_on") == 1
     end,
-    -- handler = function(current)
-    --     if current == 1 then
-    --         util.execute("syntax off")
-    --     else
-    --         util.execute("syntax enable")
-    --     end
-    -- end,
-    callback = function(enabled)
-        util.debug("enabled = ", enabled)
-        if enabled == true then
+    callback = function(syntax_on)
+        util.debug("enabled = ", syntax_on)
+        if syntax_on == true then
             util.execute("syntax off")
         else
             util.execute("syntax enable")
@@ -451,11 +441,12 @@ nnoremap("<F11>", tg.toggle("ignorecase"))
 
 -- F12 = toggle quickfix
 nnoremap("<F12>", tg.toggle({
-    setting = function()
-        return vim.fn.getqflist({ winid = 1 })
+    source = function()
+        local ids = vim.fn.getqflist({ winid = 1 })
+        return ids.winid
     end,
-    handler = function(ids)
-        if ids.winid ~= 0 then
+    handler = function(winid)
+        if winid ~= 0 then
             vim.cmd.cclose()
         else
             vim.cmd(":botright copen")

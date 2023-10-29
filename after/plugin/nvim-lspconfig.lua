@@ -228,10 +228,9 @@ lsp.lua_ls.setup({
 
 -- Ctrl-F5 - toggle LSP errors
 local toggle_diagnostics = tg.toggle({
-    source = function() return vim.diagnostic.is_disabled() end,
-    -- handler = function(is_disabled)
-    --     return is_disabled 
-    -- end,
+    source = function()
+        return vim.diagnostic.is_disabled()
+    end,
     callback = function(is_disabled)
         local buffer_id = buffer.id()
         if is_disabled then

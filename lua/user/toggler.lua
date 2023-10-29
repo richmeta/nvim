@@ -1,7 +1,33 @@
 local M = {}
+-- local util = require("user.util")
 
-local function find_next_choice(current_value, choices)
+local function get_vim_var(variable)
+    local typ, name = string.match(variable, "([bg]):(%S+)")
+    if typ == "g" then
+        return vim.g[name]
+    elseif type == "b" then
+        return vim.bo[name]
+    else
+        error(string.format("toggler: vim variable '%s' is not in format 'g:varname' or 'b:varname'", variable))
+    end
+end
+
+local function set_vim_var(variable, value)
+    local typ, name = string.match(variable, "([bg]):(%S+)")
+    if typ == "g" then
+        vim.g[name] = value
+    elseif type == "b" then
+        vim.bo[name] = value
+    else
+        error(string.format("toggler: vim variable '%s' is not in format 'g:varname' or 'b:varname'", variable))
+    end
+end
+
+local function find_next_choice(opts, current_value, choices)
     -- precondition: value must exist in choices
+    if opts.handler then
+        return opts.handler(current_value)
+    end
 
     for i, v in ipairs(choices) do
         if v == current_value then
@@ -16,18 +42,60 @@ local function find_next_choice(current_value, choices)
     error(string.format("Current value doesn't match choices. Add '%s' to choices '%s'.", current_value, vim.inspect(choices)))
 end
 
+local function set_next(opts, next_value)
+    if opts.callback then
+        opts.callback(next_value)
+    elseif opts.handler and next_value == opts.handler_ignore then
+        return
+    elseif opts.setting then
+        vim.opt[opts.setting] = next_value
+        vim.notify(string.format("%s=%s", opts.setting, next_value), vim.log.levels.INFO)
+    elseif type(opts.source) == "function" then
+        error("toggler: source based function but no callback")
+    elseif type(opts.source) == "string" then
+        set_vim_var(opts.source, next_value)
+    else
+        error("toggler: cannot set value on variable based sources")
+    end
+end
+
+local function set_list_next(opts, next_value, old_value)
+    if opts.callback then
+        opts.callback(next_value, old_value)
+    elseif opts.handler and next_value == opts.handler_ignore then
+        return
+    elseif opts.setting then
+        if old_value then
+            vim.opt[opts.setting]:remove(old_value)
+        end
+        if next_value ~= "" then
+            vim.opt[opts.setting]:append(next_value)
+        end
+        vim.notify(string.format("%s=%s", opts.setting, vim.o[opts.setting]), vim.log.levels.INFO)
+    elseif type(opts.source) == "function" then
+        error("toggler: source based function but no callback")
+    elseif type(opts.source) == "string" then
+        local tbl = get_vim_var(opts.source)
+        if old_value then
+            for k, v in ipairs(tbl) do
+                if v == old_value then
+                    table.remove(tbl, k)
+                    break
+                end
+            end
+        end
+        if next_value ~= "" then
+            table.insert(tbl, next_value)
+        end
+        set_vim_var(opts.source, tbl)
+    else
+        error("toggler: cannot set value on variable based sources")
+    end
+end
+
+
 -- TODO
--- support toggling on variables
---   { 'variable':  vim.g.some_variable, 'type': bool }
---      'type' could be optional, if omitted infer
---
---   { 'source': X, 
---     where X is a setting
---                  function
---                  variable
--- 
--- support toggling to call function(next_value)
---  { 'callback': function(current, next)
+--  some lua tests
 --
 -- separate toggle from creating as mapping
 --   toggle - function
@@ -43,66 +111,55 @@ function M.toggle(arg)
     --       'setting' : toggle on this vim setting
     --          - string  : name of setting
     --          - table   : Option type returned from vim.opt[name]
-    -- 
+    --
     --       'source' : toggle on any other type, ignored if 'setting' present
-    --          - any: the current value
-    --          - function: return the current value, in this case 'callback' is required
+    --          - string: "g:variable" or "b:variable"
+    --          - function: return the current value, in this case 'callback' is recommended
+    --          - any: the current value, but should be used in conjunction with 'handler' and/or 'callback'
     --
     --       'choices' : table or function()
     --          - table    : an array of choices to cycle over, if omitted defaults = {true, false}
     --                       list-style options are supported
     --                       set the last element as "" to remove it from toggle list
     --
-    --          - function : called before toggle, 
+    --          - function : called before toggle,
     --                       must return a table array of possible choices
     --
     --       'handler'    : function(current_value)
     --                       returns either the next value
     --                       or nil, which makes no change
     --
-    --       'callback'   : function(next_value)
-    --                       if set, call this function with the next value
-    --                       required if 'source' is a function
+    --       'handler_ignore' : any, default = nil
+    --                       don't set the value if handler returns this
     --
+    --       'callback'   : function(next_value) for simple types
+    --                      function(next_value, old_value) for tabluar types
+    --                       if set, instead of setting the next value
+    --                       call this function with the next value (and old_value for table types)
     --   }
     local opts
     if type(arg) == "string" then
         opts = { setting = arg }
     elseif type(arg) == "table" then
-        if arg._name then -- from vim.opt
+        -- allow from vim.opt
+        if arg._name and arg._info then
             opts = { setting = arg._name }
         else
-            if type(arg.source) == "function" and arg.callback == nil then
-                error("'callback' required with function based sources")
-            end
             opts = arg
         end
     else
         error("wrong argument type to toggler. expecting string or table")
     end
 
+    if opts.handler == nil and type(opts.source) == "function" and type(opts.source) == "function" then
+        -- always pass through
+        opts.handler = function(value)
+            return value
+        end
+    end
+
     if not opts.choices then
         opts.choices = { true, false }
-    end
-
-    local function set_next(next_value)
-        if type(opts.source) == "function" then
-            opts.callback(next_value)
-        elseif opts.setting then
-            vim.opt[opts.setting] = next_value
-            vim.notify(string.format("%s=%s", opts.setting, next_value), vim.log.levels.INFO)
-        else
-            opts.source = next_value
-        end
-    end
-
-    local function set_list_next(next_value, old_value)
-        if old_value then
-            vim.opt[opts.setting]:remove(old_value)
-        end
-        if next_value ~= "" then
-            vim.opt[opts.setting]:append(next_value)
-        end
     end
 
     return function()
@@ -111,24 +168,10 @@ function M.toggle(arg)
             current = vim.opt[opts.setting]:get()
         elseif type(opts.source) == "function" then
             current = opts.source()
+        elseif type(opts.source) == "string" then
+            current = get_vim_var(opts.source)
         else
             current = opts.source
-        end
-
-        if opts.handler then
-            local next_value = opts.handler(current)
-            if next_value ~= nil then
-                set_next(next_value)
-                -- if opts.setting then
-                --     vim.opt[opts.setting] = next_value
-                --     vim.notify(string.format("%s=%s", opts.setting, next_value), vim.log.levels.INFO)
-                -- elseif type(opts.source) == "function" then
-                --     opts.callback(next_value)
-                -- else
-                --     opts.source = next_value
-                -- end
-            end
-            return
         end
 
         local choices = type(opts.choices) == "function" and opts.choices() or opts.choices
@@ -152,42 +195,17 @@ function M.toggle(arg)
                 return
             elseif #found == 1 then
                 -- find the next item, remove current and add next
-                local next_value = find_next_choice(found[1], choices)
-                set_list_next(next_value, found[1])
-                -- if opts.setting then
-                --     vim.opt[opts.setting]:remove(found[1])
-                --     if next_value ~= "" then
-                --         vim.opt[opts.setting]:append(next_value)
-                --     end
-                -- elseif type(opts.source) == "function" then
-                --     opts.callback(next_value)
-                -- else
-                --     opts.source = next_value
-                -- end
+                local next_value = find_next_choice(opts, found[1], choices)
+                set_list_next(opts, next_value, found[1])
             else
                 -- nothing found, assume first
-                set_list_next(choices[1])
-                -- if opts.setting then
-                --     vim.opt[opts.setting]:append(choices[1])
-                -- elseif type(opts.source) == "function" then
-                --     opts.callback(choices[1])
-                -- else
-                --     opts.source = choices[1]
-                -- end
+                set_list_next(opts, choices[1])
             end
             vim.notify(string.format("%s=%s", opts.setting, vim.o[opts.setting]), vim.log.levels.INFO)
-        elseif type(current) ~= "table" then        -- map types not supported
+        else
             -- single setting
-            local next_value = find_next_choice(current, choices)
-            set_next(next_value)
-            -- if opts.setting then
-            --     vim.opt[opts.setting] = next_value
-            --     vim.notify(string.format("%s=%s", opts.setting, next_value), vim.log.levels.INFO)
-            -- elseif type(opts.source) == "function" then
-            --     opts.callback(choices[1])
-            -- else
-            --     opts.source = choices[1]
-            -- end
+            local next_value = find_next_choice(opts, current, choices)
+            set_next(opts, next_value)
         end
     end
 end
