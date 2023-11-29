@@ -8,11 +8,11 @@ vim.bo.shiftwidth = 4
 vim.b.switch_custom_definitions =
     {
       {
-          -- kwargs and dict  {'key': 'value'} => {key='value'}
-          [ [[\(\k\+\)=\([^),]\+\)]] ] = [["\1": \2 ]],
-
           -- kwargs and dict  {key='value'} => {'key': 'value'}
-          [ [[[''"]\(\k\+\)[''"]:\s*\([^},]\+\)]] ] = [[\1=\2]],
+          [ [[\(\k\+\)\s*=\s*\([^),]\+\)]] ] = [["\1": \2]],
+
+          -- kwargs and dict  {'key': 'value'} => {key='value'}
+          [ [[[''"]\(\k\+\)[''"]\s*:\s*\([^},]\+\)]] ] = [[\1=\2]],
 
           -- import \k+ => from \k import
           [ [[import\s\+\(\k\+\)]] ] = [[from \1 import ]],

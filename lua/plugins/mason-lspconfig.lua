@@ -6,9 +6,9 @@ return {
             "lua_ls",
             "pyright",
             "rust_analyzer",
-            -- "erlangls",
             "tsserver",
-            -- "docker_compose_language_service"
+            "docker_compose_language_service",
+            -- "erlangls",
         }
     }
 }

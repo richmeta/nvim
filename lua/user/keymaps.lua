@@ -234,9 +234,6 @@ nnoremap("<leader>db", tg.toggle({
     source = "g:show_debug"
 }))
 
--- \sb = shebang for bash
-nnoremap("<Leader>sb", ":normal 1GO<esc>I#!/usr/bin/env bash<cr><esc>")
-
 -- \ms = messages
 nnoremap("<Leader>ms", ":messages<cr>")
 
@@ -509,10 +506,10 @@ nnoremap("<leader>no", function()
     util.execute(cmd)
 end)
 
--- \ne = new buffer
+-- \ne = enew buffer
 nnoremap("<leader>ne", ":enew<cr>")
 
--- \nv = new buffer vertical
+-- \nv = vnew buffer vertical
 nnoremap("<leader>nv", ":vnew<cr>")
 
 -- \ns = new buffer split

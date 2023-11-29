@@ -20,6 +20,9 @@ local plugins = {
     { "lvimuser/lsp-inlayhints.nvim" },                         -- yes
     { "ray-x/lsp_signature.nvim" },                             -- yes
 
+    -- linters
+    { "mfussenegger/nvim-lint" },                               -- yes
+
     -- TODO: configure
     -- { "ThePrimeagen/harpoon" },
 
@@ -54,17 +57,41 @@ local plugins = {
     -- terminal
     { "akinsho/toggleterm.nvim" },                              -- yes
 
-    -- text objects
-    { "kana/vim-textobj-line", dependencies = { "kana/vim-textobj-user" }  },
-    { "sgur/vim-textobj-parameter", dependencies = { "kana/vim-textobj-user" }  },
-    { "kana/vim-textobj-entire", dependencies = { "kana/vim-textobj-user" }  },
-
     -- markdown
     { "preservim/vim-markdown" },
 
     -- tmux
     { "christoomey/vim-tmux-navigator" },
 
+    -- TEXT OBJECTS
+
+    -- al = whole line (motion)
+    -- il = line without leading ws (motion)
+    { "kana/vim-textobj-line", dependencies = { "kana/vim-textobj-user" } },
+
+    -- i, = parameter only (motion)
+    -- a, = parameter with comma (motion)
+    { "sgur/vim-textobj-parameter", dependencies = { "kana/vim-textobj-user" } },
+
+    -- ae = whole file (motion)
+    -- ie = whole file without leading/trailing ws (motion)
+    { "kana/vim-textobj-entire", dependencies = { "kana/vim-textobj-user" } },
+
+    -- ac = column on word (motion)
+    -- aC = column on WORD (motion)
+    -- ic = inner column on word (motion)
+    -- iC = inner column on WORD (motion)
+    { "coderifous/textobj-word-column.vim", dependencies = { "kana/vim-textobj-user" } },
+
+    -- ai = indentation level and line above  (motion)
+    -- ii = inner indentation level no line above (motion)
+    -- aI = indentation level and above/below lines (motion)
+    -- iI = inner indentation level no lines above/below (motion)
+    { "michaeljsmith/vim-indent-object", dependencies = { "kana/vim-textobj-user" } },
+
+    -- iv = inner variable segment (motion)
+    -- av = inner variable segment (motion)
+    { "Julian/vim-textobj-variable-segment",  dependencies = { "kana/vim-textobj-user" } },
 }
 
 -- load any local plugins, from user/localplugins.lua
