@@ -8,7 +8,7 @@ return {
             "rust_analyzer",
             "tsserver",
             "docker_compose_language_service",
-            -- "erlangls",
+            "clangd"
         }
     }
 }

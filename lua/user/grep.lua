@@ -7,7 +7,6 @@ local function ft_to_rg(ft)
     local lookup = {
         python = "py",
         javascript = "js",
-        erlang = "erl",
         vim = "vimscript",
     }
     local ret = lookup[ft]

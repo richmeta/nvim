@@ -165,13 +165,6 @@ lsp.rust_analyzer.setup({
     }
 })
 
-lsp.erlangls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    flags = {
-    }
-})
-
 lsp.tsserver.setup({
     capabilities = capabilities,
     on_attach = on_attach,

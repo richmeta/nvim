@@ -48,9 +48,6 @@ local plugins = {
     { "AndrewRadev/switch.vim" },                               -- yes
     { "godlygeek/tabular" },
 
-    -- erlang
-    { "vim-erlang/vim-erlang-tags", ft = "erlang" },
-
     -- python
     { "Vimjas/vim-python-pep8-indent", ft = "python" },
 
