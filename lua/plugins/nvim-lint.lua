@@ -13,8 +13,8 @@ return {
 
     keys = {
         -- \ll = lint
-        { "<leader>ll", function() 
-            require('lint').try_lint() 
+        { "<leader>ll", function()
+            require('lint').try_lint()
         end }
     }
 }
