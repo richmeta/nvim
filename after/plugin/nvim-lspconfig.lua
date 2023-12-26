@@ -219,6 +219,11 @@ lsp.lua_ls.setup({
     },
 })
 
+lsp.clangd.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+
 -- Ctrl-F5 - toggle LSP errors
 local toggle_diagnostics = tg.toggle({
     source = function()
