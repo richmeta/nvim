@@ -2,3 +2,4 @@ std="lua51+vim"
 
 [config]
 unscoped_variables = { ignore_pattern = ".*--ignore" }
+mixed_table = "allow"
